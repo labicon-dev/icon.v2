@@ -1,5 +1,14 @@
 # Design Tokens — ICON (M1)
 
+> **Atualização (M2):** a escala tipográfica e o espaçamento foram
+> **recalibrados a partir do protótipo do Claude Design (`ICON.dc.html`)**, a
+> fonte real das medidas — os valores abaixo, extraídos do Figma, eram ~30%
+> menores porque o frame foi traçado sobre screenshots reduzidos do protótipo.
+> A fonte de verdade continua sendo
+> [`src/styles/design-tokens.ts`](../src/styles/design-tokens.ts); as tabelas
+> deste documento descrevem a extração original do Figma e serão consolidadas
+> junto com o design system formal.
+
 > **Observação (importante):** o site do ICON foi desenhado primeiro no Figma e
 > **ainda não existe um arquivo de _Guidelines_ oficial**. Estes tokens foram
 > **extraídos por engenharia reversa dos frames já desenhados** do site
