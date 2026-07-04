@@ -41,6 +41,6 @@ pnpm run dev
 - [ ] Nenhum segredo/valor sensível foi commitado (apenas `.env.template` com chaves vazias)
 - [ ] A issue correspondente no Linear está referenciada (`Resolves ICO-XXX`)
 
-> ⚠️ **Revisão humana obrigatória (ICO-21).** Código gerado por agentes de IA
+> ⚠️ **Revisão humana obrigatória (ICO-xxx).** Código gerado por agentes de IA
 > **não** é mergeado sem revisão humana. O status check `human-approval` só passa
 > após aprovação explícita de um mantenedor.

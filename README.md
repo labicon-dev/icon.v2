@@ -6,10 +6,16 @@ com **Tailwind CSS v4** sobre os tokens de design extraídos do Figma.
 
 ## Como rodar
 
-Pré-requisitos: **Node 22+** e **pnpm** (ou apenas Docker — ver a seção
+Pré-requisitos: **Node 22** e **pnpm** (ou apenas Docker — ver a seção
 [Ambiente de desenvolvimento com Docker](#ambiente-de-desenvolvimento-com-docker)).
 
+A versão do Node é fixada em [`.nvmrc`](./.nvmrc). Se você usa
+[nvm](https://github.com/nvm-sh/nvm), rode `nvm use` na raiz para alinhar a
+versão automaticamente (`nvm install` na primeira vez). O CI lê a mesma versão
+desse arquivo (`node-version-file: .nvmrc`), então dev e CI ficam sempre em sincronia.
+
 ```bash
+nvm use           # usa o Node fixado em .nvmrc (Node 22)
 pnpm install      # instala as dependências (e configura os hooks do Husky)
 pnpm run dev      # sobe o dev server do Vite em http://localhost:5173
 ```
@@ -144,3 +150,56 @@ Os hooks de git são gerenciados pelo [Husky](https://typicode.github.io/husky/)
 | `commit-msg` | `commitlint`  | Valida a mensagem de commit contra o padrão [Conventional Commits](https://www.conventionalcommits.org/), bloqueando commits fora do padrão |
 
 A configuração do lint-staged fica no [`package.json`](./package.json) (campo `lint-staged`) e a do commitlint em [`commitlint.config.js`](./commitlint.config.js) (estende `@commitlint/config-conventional`).
+
+## Fluxo de contribuição e agentes de IA
+
+Boa parte do código deste projeto é gerada com apoio de **agentes de IA**. Para
+manter qualidade e rastreabilidade, o fluxo é padronizado e a **revisão humana é
+obrigatória** antes de qualquer merge (ver
+[ICO-21](https://linear.app/labicon/issue/ICO-21)). As convenções detalhadas para
+agentes ficam em [`AGENTS.md`](./AGENTS.md).
+
+### Passo a passo
+
+1. **Issue no Linear.** Todo trabalho parte de uma issue do time ICON (prefixo
+   `ICO-`). Use o `gitBranchName` sugerido pela própria issue como nome da branch.
+2. **Ambiente.** `nvm use` (Node 22) + `pnpm install`, ou rode via Docker
+   (`docker compose -f docker-compose.dev.yml up`).
+3. **Implemente** seguindo a estrutura de pastas e as convenções do
+   [`AGENTS.md`](./AGENTS.md).
+4. **Gates locais** (os hooks do Husky já rodam parte disso, mas rode antes para
+   não perder tempo):
+
+   ```bash
+   pnpm run lint          # oxlint
+   pnpm run format:check  # Prettier (use `format` para corrigir)
+   pnpm run build         # type-check + build
+   ```
+
+5. **Commits** no padrão [Conventional Commits](https://www.conventionalcommits.org/)
+   (`tipo(escopo): descrição` no imperativo). O `commit-msg` do Husky valida.
+6. **Abra o PR** preenchendo o [template](./.github/pull_request_template.md).
+   O **título do PR** também deve seguir Conventional Commits (validado pelo
+   workflow `PR Title`) e o corpo deve referenciar a issue: `Resolves ICO-X`.
+7. **Revisão humana.** O status check `human-approval` bloqueia o merge até a
+   aprovação de um mantenedor (ver [CODEOWNERS](./.github/CODEOWNERS)).
+
+### Automação de repositório
+
+| Arquivo                                                                    | O que faz                                                            |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [`.github/workflows/ci.yml`](./.github/workflows/ci.yml)                   | Lint + `format:check` + build a cada push/PR (Node lido de `.nvmrc`) |
+| [`.github/workflows/pr-title.yml`](./.github/workflows/pr-title.yml)       | Valida o título do PR contra Conventional Commits                    |
+| [`.github/workflows/merge-check.yml`](./.github/workflows/merge-check.yml) | Gate `human-approval`: exige review aprovada por um humano (ICO-21)  |
+| [`.github/workflows/labeler.yml`](./.github/workflows/labeler.yml)         | Aplica labels de área (`area:frontend`, `area:infra`, `area:docs`)   |
+| [`.github/dependabot.yml`](./.github/dependabot.yml)                       | Atualizações semanais de dependências (pnpm/npm + github-actions)    |
+| [`.github/CODEOWNERS`](./.github/CODEOWNERS)                               | Revisores exigidos por área                                          |
+
+### ICON DevKit
+
+Os projetos do laboratório usam skills do **ICON DevKit** para orquestrar o ciclo
+no Claude Code + Linear — entre elas `icon-issue-creator` (criar/planejar issues),
+`icon-handoff-executor` (implementar uma issue e abrir o PR), `icon-pr-review`
+(self-review antes do PR) e `icon-cycle-review` (panorama do projeto). Elas
+preparam o trabalho, mas **não substituem** a revisão humana. Detalhes em
+[`AGENTS.md`](./AGENTS.md#fluxo-com-o-icon-devkit).
