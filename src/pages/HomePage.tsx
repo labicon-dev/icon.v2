@@ -38,6 +38,7 @@ const LAT_LONG = '13°0\'13.66"S 38°30\'34.03"W';
 
 function formatTime(date: Date): string {
   return date.toLocaleTimeString('pt-BR', {
+    timeZone: 'America/Bahia',
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
@@ -78,7 +79,7 @@ function HeroStat({ label, children }: HeroStatProps) {
 
 export function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-neutral-50">
+    <div id="inicio" className="flex min-h-screen flex-col bg-background text-neutral-50">
       <section className="flex flex-1 flex-col justify-start lg:justify-center">
         <div className="mx-auto w-full max-w-[1280px] px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
           {/* Rótulo do laboratório */}
@@ -88,7 +89,7 @@ export function HomePage() {
 
           {/* Título display */}
           <h1 className="mt-8 font-sans text-[clamp(3rem,9.5vw,8.5rem)] leading-[0.9] font-bold tracking-tight uppercase">
-            <span className="block text-neutral-800">Onde o código vira</span>
+            <span className="block text-neutral-50">Onde o código vira</span>
             <span className="block text-accent">Arte.</span>
           </h1>
 
@@ -98,7 +99,11 @@ export function HomePage() {
             <span className="text-neutral-400" aria-hidden="true">
               /
             </span>
-            <span className="inline-block size-2.5 bg-accent" aria-hidden="true" />
+            <span lang="en">&gt; rendering_interfaces</span>
+            <span
+              className="inline-block size-2.5 animate-pulse bg-accent motion-reduce:animate-none"
+              aria-hidden="true"
+            />
           </div>
 
           {/* Apresentação */}
@@ -116,7 +121,7 @@ export function HomePage() {
                 ↓
               </span>
             </Button>
-            <Button variant="secondary" href="#ao-vivo">
+            <Button variant="secondary" href="#live">
               Ver ao vivo{' '}
               <span aria-hidden="true" className="inline-block size-2 rounded-full bg-current" />
             </Button>
