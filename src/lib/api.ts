@@ -41,7 +41,7 @@ function getBaseUrl(): string {
   if (!baseUrl) {
     throw new Error(
       'VITE_API_BASE_URL não configurada. Copie `.env.template` para `.env.local` ' +
-        'e preencha o valor (ver README). A validação no boot é tratada na ICO-52.',
+        'e preencha o valor (ver README). O boot valida isso via `src/config/env.ts`.',
     );
   }
   // Remove barra final para evitar `//` ao concatenar com o path.
