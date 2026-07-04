@@ -38,6 +38,17 @@ O projeto separa as responsabilidades: **oxlint** cuida das regras de lint e **P
 
 A configuração do Prettier fica em [`.prettierrc`](./.prettierrc) e os caminhos ignorados em [`.prettierignore`](./.prettierignore).
 
+## Git hooks (Husky)
+
+Os hooks de git são gerenciados pelo [Husky](https://typicode.github.io/husky/) e ficam versionados em [`.husky/`](./.husky). São instalados automaticamente pelo script `prepare` ao rodar `pnpm install`.
+
+| Hook         | O que roda    | O que faz                                                                                                                                   |
+| ------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pre-commit` | `lint-staged` | Roda oxlint + Prettier **apenas nos arquivos staged**, corrigindo a formatação in-place                                                     |
+| `commit-msg` | `commitlint`  | Valida a mensagem de commit contra o padrão [Conventional Commits](https://www.conventionalcommits.org/), bloqueando commits fora do padrão |
+
+A configuração do lint-staged fica no [`package.json`](./package.json) (campo `lint-staged`) e a do commitlint em [`commitlint.config.js`](./commitlint.config.js) (estende `@commitlint/config-conventional`).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
