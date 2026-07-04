@@ -1,4 +1,4 @@
-import QuemSection from './pages/QuemSection';
+import LiveSection from './pages/LiveSection';
 
 /**
  * Composição raiz do site single-page. As seções (Figma: inicio, sobre,
@@ -8,7 +8,7 @@ import QuemSection from './pages/QuemSection';
 function App() {
   return (
     <main>
-      <QuemSection />
+      <LiveSection />
     </main>
   );
 }
