@@ -61,8 +61,15 @@ O client HTTP fica em [`src/lib/api.ts`](./src/lib/api.ts) e lê a URL base
 `GET /member/all`. Publicações e projetos ainda não têm endpoint confirmado e
 serão adicionados quando forem definidos (M3).
 
-> A validação de que as variáveis obrigatórias estão populadas no boot é
-> tratada em issue própria (ICO-52).
+### Validação no boot
+
+As variáveis obrigatórias são validadas no boot: se alguma estiver ausente ou
+vazia, o dev server e o `build` **falham rápido** com um erro listando exatamente
+as chaves faltantes — evitando subir sem a configuração certa e só quebrar em
+runtime. A lista canônica de chaves obrigatórias fica em
+[`src/config/env.ts`](./src/config/env.ts) (`REQUIRED_ENV_KEYS`); ao adicionar
+uma nova env obrigatória, inclua-a lá, em [`.env.template`](./.env.template) e em
+`ImportMetaEnv` ([`src/vite-env.d.ts`](./src/vite-env.d.ts)).
 
 ## Lint e formatação
 
