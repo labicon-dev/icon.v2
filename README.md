@@ -2,6 +2,30 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
+## Ambiente de desenvolvimento com Docker
+
+O ambiente de dev roda em container com hot-reload do Vite. Basta ter Docker + Docker Compose instalados.
+
+```bash
+docker compose -f docker-compose.dev.yml up
+```
+
+O dev server fica disponível em **http://localhost:5173**. O código-fonte é montado via bind mount, então edições em `src/` refletem no navegador sem rebuild da imagem.
+
+| Item          | Valor                                                |
+| ------------- | ---------------------------------------------------- |
+| Porta do Vite | `5173` (host → container)                            |
+| Dockerfile    | [`Dockerfile.dev`](./Dockerfile.dev)                 |
+| Compose       | [`docker-compose.dev.yml`](./docker-compose.dev.yml) |
+
+> O hot-reload usa polling do file watcher (`server.watch.usePolling`) para funcionar de forma confiável em bind mounts do Docker Desktop no macOS/Windows.
+
+Para reconstruir a imagem após mudar dependências (`package.json` / `pnpm-lock.yaml`):
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
 ## Lint e formatação
 
 O projeto separa as responsabilidades: **oxlint** cuida das regras de lint e **Prettier** cuida apenas da formatação de código. Como o oxlint não formata, não há conflito entre as duas ferramentas.
