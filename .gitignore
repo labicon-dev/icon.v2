@@ -12,8 +12,7 @@ dist
 dist-ssr
 *.local
 
-# Env — segredos nunca versionados (a URL da API também é secreta).
-# O único arquivo de env versionado é `.env.template` (só chaves vazias).
+# Environment variables
 .env
 .env.*
 !.env.template
