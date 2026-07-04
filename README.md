@@ -34,6 +34,36 @@ Os tokens de design (cores, tipografia e espaçamento) vêm de [`src/styles/desi
 
 As fontes **Space Grotesk** e **JetBrains Mono** são carregadas via Google Fonts em [`index.html`](./index.html).
 
+## Variáveis de ambiente e integração com a API
+
+Os segredos (incluindo a **URL base da API**, que é tratada como secreto)
+nunca são versionados. O repositório versiona apenas o
+[`.env.template`](./.env.template), que contém somente as **chaves** com
+valores vazios.
+
+Para rodar localmente contra a API real:
+
+```bash
+cp .env.template .env.local
+# edite .env.local e preencha VITE_API_BASE_URL com o valor fornecido pelo time
+```
+
+O `.env.local` é ignorado pelo git (ver [`.gitignore`](./.gitignore)) — **nunca
+commite valores reais**. Em CI/deploy, defina as mesmas variáveis como secrets
+do ambiente (GitHub Actions Secrets, env vars do Vercel/servidor do lab).
+
+| Variável            | Descrição                                                   |
+| ------------------- | ----------------------------------------------------------- |
+| `VITE_API_BASE_URL` | URL base da API do laboratório (secreta; obtida com o time) |
+
+O client HTTP fica em [`src/lib/api.ts`](./src/lib/api.ts) e lê a URL base
+**sempre** de `VITE_API_BASE_URL` — nada de endpoint hardcoded. Hoje ele cobre
+`GET /member/all`. Publicações e projetos ainda não têm endpoint confirmado e
+serão adicionados quando forem definidos (M3).
+
+> A validação de que as variáveis obrigatórias estão populadas no boot é
+> tratada em issue própria (ICO-52).
+
 ## Lint e formatação
 
 O projeto separa as responsabilidades: **oxlint** cuida das regras de lint e **Prettier** cuida apenas da formatação de código. Como o oxlint não formata, não há conflito entre as duas ferramentas.
