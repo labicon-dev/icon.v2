@@ -1,0 +1,64 @@
+name: Merge Check
+
+# Gate de aprovação humana (ICO-21): código gerado por agentes de IA não pode
+# ser mergeado sem revisão humana. Este workflow expõe o status check
+# "human-approval", que só passa quando existe pelo menos uma review APROVADA
+# feita por um humano com permissão no repositório (OWNER/MEMBER/COLLABORATOR),
+# ignorando aprovações de bots/apps.
+#
+# Configure "human-approval" como required status check na proteção do branch
+# principal para bloquear o merge até a aprovação humana.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  human-approval:
+    name: human-approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exige aprovação humana
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+
+            const reviews = await github.paginate(
+              github.rest.pulls.listReviews,
+              { owner, repo, pull_number: prNumber, per_page: 100 },
+            );
+
+            // Mantém apenas a última review de cada usuário.
+            const latestByUser = new Map();
+            for (const review of reviews) {
+              if (!review.user) continue;
+              latestByUser.set(review.user.id, review);
+            }
+
+            const humanApprovals = [...latestByUser.values()].filter(
+              (review) =>
+                review.state === 'APPROVED' &&
+                review.user.type !== 'Bot' &&
+                ['OWNER', 'MEMBER', 'COLLABORATOR'].includes(
+                  review.author_association,
+                ),
+            );
+
+            if (humanApprovals.length === 0) {
+              core.setFailed(
+                'Aguardando revisão humana: nenhuma aprovação de um mantenedor ' +
+                  'foi encontrada. O merge está bloqueado até a aprovação (ICO-21).',
+              );
+              return;
+            }
+
+            const who = humanApprovals.map((r) => `@${r.user.login}`).join(', ');
+            core.info(`Aprovação humana encontrada: ${who}.`);

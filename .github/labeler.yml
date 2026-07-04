@@ -1,0 +1,35 @@
+# Configuração do actions/labeler — aplica labels de área com base nos
+# caminhos alterados no PR. App único (sem split api/admin).
+
+area:frontend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**'
+          - 'index.html'
+          - 'public/**'
+          - 'tailwind.config.ts'
+          - 'vite.config.ts'
+          - 'tsconfig*.json'
+
+area:infra:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+          - 'Dockerfile*'
+          - 'docker-compose*.yml'
+          - '.dockerignore'
+          - '.husky/**'
+          - 'commitlint.config.js'
+          - '.oxlintrc.json'
+          - '.prettierrc'
+          - '.prettierignore'
+          - '.nvmrc'
+          - 'package.json'
+          - 'pnpm-lock.yaml'
+
+area:docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+          - 'docs/**'
+          - 'AGENTS.md'
