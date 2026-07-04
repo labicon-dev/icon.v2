@@ -1,4 +1,4 @@
-import SobreSection from './pages/SobreSection';
+import InteresseSection from './pages/InteresseSection';
 
 /**
  * Composição raiz do site single-page. As seções (Figma: inicio, sobre,
@@ -8,7 +8,7 @@ import SobreSection from './pages/SobreSection';
 function App() {
   return (
     <main>
-      <SobreSection />
+      <InteresseSection />
     </main>
   );
 }
