@@ -123,6 +123,46 @@ runtime. A lista canônica de chaves obrigatórias fica em
 uma nova env obrigatória, inclua-a lá, em [`.env.template`](./.env.template) e em
 `ImportMetaEnv` ([`src/vite-env.d.ts`](./src/vite-env.d.ts)).
 
+## Preview automático de PRs (Vercel)
+
+O repositório é conectado a um projeto **Vercel** usado **apenas para
+validação/preview de cada Pull Request** — build, lint e um link de preview para
+revisão visual. **A Vercel não é o ambiente de produção:** o deploy final
+continua indo para o **servidor próprio do laboratório**, via GitHub Actions +
+Docker (marcos M4/M5). Pense nela como um "CI visual" que complementa o
+[workflow de CI](./.github/workflows/ci.yml), não como destino de produção.
+
+Como funciona:
+
+- A cada PR aberto/atualizado, a Vercel roda um **preview deployment** e comenta
+  o link no PR para revisão visual.
+- O build de preview é configurado em [`vercel.json`](./vercel.json): roda
+  `pnpm run lint` (oxlint) **antes** do `pnpm run build` — se o lint quebrar, o
+  build de preview **falha**.
+- Deployments na branch `main` ficam **desabilitados** (`git.deploymentEnabled`
+  em [`vercel.json`](./vercel.json)): a Vercel só produz previews de PR, nunca um
+  deploy de produção.
+
+> **Secrets:** as variáveis de ambiente obrigatórias (as mesmas chaves de
+> [`.env.template`](./.env.template) / `REQUIRED_ENV_KEYS`, ver ICO-9) precisam
+> ser configuradas como **environment variables do próprio projeto Vercel**
+> (Settings → Environment Variables), aplicadas ao ambiente **Preview**. Sem
+> elas, o validador de boot falha o build de propósito — igual ao CI. **Nenhum
+> valor real é commitado no repositório.**
+
+### Configuração inicial (uma vez, no dashboard da Vercel)
+
+Passos manuais feitos no dashboard da Vercel (não versionáveis):
+
+1. **Importar o repositório** `labicon-dev/icon.v2` como um novo projeto Vercel
+   (framework detectado automaticamente como Vite; install/build vêm do
+   [`vercel.json`](./vercel.json)).
+2. Em **Settings → Environment Variables**, adicionar `VITE_API_BASE_URL` (e
+   qualquer outra chave de `REQUIRED_ENV_KEYS`) marcada para o ambiente
+   **Preview**.
+3. Confirmar que os **PR comments** da Vercel estão habilitados (padrão) para o
+   link de preview aparecer em cada PR.
+
 ## Lint e formatação
 
 > **Decisão (ICO-49):** manter o **oxlint** (já presente no scaffold do Vite) em
