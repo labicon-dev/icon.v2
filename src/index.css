@@ -8,3 +8,21 @@
     @apply bg-background font-sans text-neutral-50 antialiased;
   }
 }
+
+/* Faixa marquee (componente Marquee, ICO-12): desloca o trilho em -50% para um
+   loop contínuo, já que a sequência de itens é duplicada lado a lado. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration, 30s) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
