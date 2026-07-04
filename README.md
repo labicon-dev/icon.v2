@@ -180,6 +180,8 @@ O projeto separa as responsabilidades: **oxlint** cuida das regras de lint e **P
 
 A configuração do Prettier fica em [`.prettierrc`](./.prettierrc) e os caminhos ignorados em [`.prettierignore`](./.prettierignore).
 
+> **No dia a dia, confie no hook `pre-commit`** (lint-staged), que formata apenas os arquivos staged. Evite rodar `pnpm run format` global sem necessidade: como ele reescreve **todos** os arquivos, em ambientes Windows pode deixar dezenas de arquivos aparecendo como modificados só por causa do fim de linha (EOL). O [`.gitattributes`](./.gitattributes) na raiz normaliza o EOL para LF (alinhado ao `endOfLine: "lf"` do Prettier), então após um checkout limpo o `git status` fica limpo em Windows e Linux.
+
 ## Git hooks (Husky)
 
 Os hooks de git são gerenciados pelo [Husky](https://typicode.github.io/husky/) e ficam versionados em [`.husky/`](./.husky). São instalados automaticamente pelo script `prepare` ao rodar `pnpm install`.
