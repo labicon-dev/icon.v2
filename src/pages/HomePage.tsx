@@ -78,7 +78,7 @@ function HeroStat({ label, children }: HeroStatProps) {
 
 export function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-white text-neutral-950">
+    <div className="flex min-h-screen flex-col bg-background text-neutral-50">
       <section className="flex flex-1 flex-col justify-start lg:justify-center">
         <div className="mx-auto w-full max-w-[1280px] px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
           {/* Rótulo do laboratório */}
@@ -88,7 +88,7 @@ export function HomePage() {
 
           {/* Título display */}
           <h1 className="mt-8 font-sans text-[clamp(3rem,9.5vw,8.5rem)] leading-[0.9] font-bold tracking-tight uppercase">
-            <span className="block text-neutral-100">Onde o código vira</span>
+            <span className="block text-neutral-800">Onde o código vira</span>
             <span className="block text-accent">Arte.</span>
           </h1>
 
@@ -104,7 +104,7 @@ export function HomePage() {
           {/* Apresentação */}
           <p className="mt-8 max-w-[520px] font-sans text-h4 text-neutral-500">
             Pesquisa, desenvolvimento e inovação em{' '}
-            <strong className="font-semibold text-neutral-900">arte, ciência e tecnologia.</strong>{' '}
+            <strong className="font-semibold text-neutral-50">arte, ciência e tecnologia.</strong>{' '}
             Construindo novas interfaces e sistemas interativos.
           </p>
 

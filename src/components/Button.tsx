@@ -22,7 +22,7 @@ const base =
 const variants: Record<ButtonVariant, string> = {
   primary: 'border-accent bg-accent text-neutral-950 hover:border-neutral-100 hover:bg-neutral-100',
   secondary:
-    'border-neutral-900 bg-transparent text-neutral-950 hover:border-accent hover:bg-accent',
+    'border-neutral-700 bg-transparent text-neutral-50 hover:border-accent hover:bg-accent hover:text-neutral-950',
 };
 
 export function Button({ variant = 'primary', className = '', children, ...props }: ButtonProps) {
