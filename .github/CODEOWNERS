@@ -1,0 +1,17 @@
+# CODEOWNERS — revisores exigidos por área.
+# Reforça a revisão humana obrigatória (ICO-21): todo PR precisa da
+# aprovação de pelo menos um code owner antes do merge.
+
+# Padrão: qualquer arquivo exige revisão dos mantenedores do projeto.
+*                       @edu-wmv
+
+# Infra / DevOps / CI
+/.github/               @edu-wmv
+/Dockerfile.dev         @edu-wmv
+/docker-compose.dev.yml @edu-wmv
+/.husky/                @edu-wmv
+
+# Documentação e padrões
+*.md                    @edu-wmv @brenluz
+/docs/                  @edu-wmv @brenluz
+/AGENTS.md              @edu-wmv @brenluz

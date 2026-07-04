@@ -1,0 +1,30 @@
+version: 2
+updates:
+  # Dependências do app (pnpm/npm) na raiz
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps-dev)'
+    labels:
+      - 'area:infra'
+    groups:
+      # Agrupa atualizações minor/patch para reduzir ruído de PRs
+      minor-and-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  # Actions usadas nos workflows do GitHub
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'ci'
+    labels:
+      - 'area:infra'
