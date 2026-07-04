@@ -1,23 +1,14 @@
-# Imagem de desenvolvimento com hot-reload do Vite.
-# O código-fonte é montado via bind mount (ver docker-compose.dev.yml),
-# então aqui só preparamos o ambiente e as dependências.
 FROM node:24-alpine
 
-# Habilita o pnpm via corepack (mesma versão usada no projeto).
 RUN corepack enable
 
 WORKDIR /app
 
-# Instala as dependências primeiro para aproveitar o cache de camadas.
-# Só refaz o install quando o manifesto ou o lockfile mudam.
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# O restante do código chega em tempo de execução via bind mount.
 COPY . .
 
-# Porta padrão do dev server do Vite.
 EXPOSE 5173
 
-# --host expõe o servidor em 0.0.0.0 para ser acessível fora do container.
 CMD ["pnpm", "run", "dev", "--host"]
