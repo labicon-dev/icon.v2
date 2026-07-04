@@ -51,8 +51,7 @@ do ambiente (GitHub Actions Secrets, env vars do Vercel/servidor do lab).
 O client HTTP fica em [`src/lib/api.ts`](./src/lib/api.ts) e lê a URL base
 **sempre** de `VITE_API_BASE_URL` — nada de endpoint hardcoded. Hoje ele cobre
 `GET /member/all`. Publicações e projetos ainda não têm endpoint confirmado e
-usam stubs isolados em [`src/lib/stubs.ts`](./src/lib/stubs.ts), com as mesmas
-assinaturas assíncronas para facilitar a troca pelo client real no M3.
+serão adicionados quando forem definidos (M3).
 
 > A validação de que as variáveis obrigatórias estão populadas no boot é
 > tratada em issue própria (ICO-52).

@@ -6,8 +6,8 @@
  * secrets de CI/deploy. Ver `.env.template` e o README.
  *
  * Este módulo cobre apenas o endpoint confirmado hoje (`/member/all`).
- * Publicações e projetos ainda não têm endpoint confirmado e vivem em
- * `./stubs.ts`, isolados deste client real e fáceis de substituir no M3.
+ * Publicações e projetos ainda não têm endpoint confirmado e serão adicionados
+ * quando forem definidos (M3).
  */
 
 /** Erro lançado quando a API responde com status fora da faixa 2xx. */
