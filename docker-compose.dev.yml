@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      # host:container — porta do dev server do Vite
+      - '5173:5173'
+    volumes:
+      # Monta o código-fonte para hot-reload; edições em src/ refletem no container.
+      - .:/app
+      # Volume anônimo preserva o node_modules instalado na imagem,
+      # evitando que o bind mount do host o sobrescreva.
+      - /app/node_modules
+    environment:
+      # Garante file watching confiável em bind mounts (Docker Desktop no macOS/Windows).
+      - CHOKIDAR_USEPOLLING=true
+    restart: unless-stopped
