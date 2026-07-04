@@ -1,4 +1,4 @@
-import LiveSection from './pages/LiveSection';
+import ContatoSection from './pages/ContatoSection';
 
 /**
  * Composição raiz do site single-page. As seções (Figma: inicio, sobre,
@@ -8,7 +8,7 @@ import LiveSection from './pages/LiveSection';
 function App() {
   return (
     <main>
-      <LiveSection />
+      <ContatoSection />
     </main>
   );
 }
