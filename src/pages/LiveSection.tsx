@@ -72,7 +72,7 @@ function LiveSection() {
             Ao vivo · Live
           </span>
           <span className="font-mono text-label text-neutral-700 uppercase">
-            ICON_LAB_CAM · UTC-3 · <time>{time}</time>
+            ICON_LAB_CAM · UTC-3 · <time className="text-accent">{time}</time>
           </span>
         </figcaption>
 
