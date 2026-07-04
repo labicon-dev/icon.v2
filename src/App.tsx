@@ -1,4 +1,4 @@
-import InteresseSection from './pages/InteresseSection';
+import QuemSection from './pages/QuemSection';
 
 /**
  * Composição raiz do site single-page. As seções (Figma: inicio, sobre,
@@ -8,7 +8,7 @@ import InteresseSection from './pages/InteresseSection';
 function App() {
   return (
     <main>
-      <InteresseSection />
+      <QuemSection />
     </main>
   );
 }
