@@ -2,6 +2,18 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
+## Lint e formatação
+
+O projeto separa as responsabilidades: **oxlint** cuida das regras de lint e **Prettier** cuida apenas da formatação de código. Como o oxlint não formata, não há conflito entre as duas ferramentas.
+
+| Script                  | Ferramenta | O que faz                                        |
+| ----------------------- | ---------- | ------------------------------------------------ |
+| `pnpm run lint`         | oxlint     | Analisa o código em busca de problemas (regras)  |
+| `pnpm run format`       | Prettier   | Formata todos os arquivos in-place               |
+| `pnpm run format:check` | Prettier   | Verifica a formatação sem alterar (útil para CI) |
+
+A configuração do Prettier fica em [`.prettierrc`](./.prettierrc) e os caminhos ignorados em [`.prettierignore`](./.prettierignore).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
