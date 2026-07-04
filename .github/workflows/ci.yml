@@ -35,3 +35,8 @@ jobs:
 
       - name: Build
         run: pnpm run build
+        env:
+          # A URL base é secreta (ver ICO-9). Defina em Settings > Secrets and
+          # variables > Actions > New repository secret: VITE_API_BASE_URL.
+          # Sem o secret, o validador de boot falha o build de propósito.
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
