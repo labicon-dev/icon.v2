@@ -33,8 +33,12 @@ milestones. Todo PR deve referenciar a issue correspondente com `Resolves ICO-X`
 
 ## Convenções de código
 
-- **Formatação:** deixe o Prettier decidir. Rode `pnpm run format` antes de
-  commitar — não brigue manualmente com o estilo. Config em [`.prettierrc`](./.prettierrc).
+- **Formatação:** deixe o Prettier decidir — não brigue manualmente com o
+  estilo. No dia a dia, confie no hook `pre-commit` (lint-staged), que formata
+  **apenas os arquivos staged**. Evite rodar `pnpm run format` global: ele
+  reescreve todos os arquivos e, em Windows, pode gerar diffs "fantasma" só de
+  EOL. Config em [`.prettierrc`](./.prettierrc); EOL normalizado por
+  [`.gitattributes`](./.gitattributes).
 - **Lint:** `pnpm run lint` (oxlint). Regras em [`.oxlintrc.json`](./.oxlintrc.json).
   Respeite as regras de hooks do React.
 - **TypeScript:** sem `any` gratuito; prefira tipos explícitos nas fronteiras

@@ -1,0 +1,16 @@
+# Normaliza fins de linha (EOL) para evitar ruído no diff entre Windows e Linux.
+# LF como padrão: o projeto roda em Docker/Linux e a Vercel/CI usam LF.
+* text=auto eol=lf
+
+# Arquivos binários: não normalizar.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+
+# SVG é texto.
+*.svg text
