@@ -1,6 +1,52 @@
-# React + TypeScript + Vite
+# Site do ICON v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Front-end do novo site do Laboratório ICON — single-page, tema escuro, estética
+técnica/wireframe. Construído com **React 19 + TypeScript + Vite**, estilizado
+com **Tailwind CSS v4** sobre os tokens de design extraídos do Figma.
+
+## Como rodar
+
+Pré-requisitos: **Node 22+** e **pnpm** (ou apenas Docker — ver a seção
+[Ambiente de desenvolvimento com Docker](#ambiente-de-desenvolvimento-com-docker)).
+
+```bash
+pnpm install      # instala as dependências (e configura os hooks do Husky)
+pnpm run dev      # sobe o dev server do Vite em http://localhost:5173
+```
+
+| Script                  | O que faz                                                |
+| ----------------------- | -------------------------------------------------------- |
+| `pnpm run dev`          | Dev server do Vite com hot-reload                        |
+| `pnpm run build`        | Type-check (`tsc -b`) + build de produção (`vite build`) |
+| `pnpm run preview`      | Serve localmente o build de produção                     |
+| `pnpm run lint`         | Analisa o código com oxlint                              |
+| `pnpm run format`       | Formata todos os arquivos com Prettier (in-place)        |
+| `pnpm run format:check` | Verifica a formatação sem alterar (útil para CI)         |
+
+## Estrutura de pastas
+
+O `src/` é organizado **por feature/domínio**, substituindo a estrutura genérica
+do template padrão do Vite. A ideia é manter cada domínio coeso e isolado, com os
+blocos reutilizáveis num nível compartilhado.
+
+```
+src/
+├── main.tsx          # ponto de entrada — monta o React no #root
+├── App.tsx           # composição raiz da aplicação
+├── index.css         # estilos globais (importa o Tailwind e o @config dos tokens)
+├── components/       # componentes de UI reutilizáveis e agnósticos de domínio
+├── features/         # módulos por feature (membros, publicações, projetos…)
+├── pages/            # componentes de página/rota (M2)
+├── lib/              # utilitários e clients compartilhados (ex.: api.ts)
+└── styles/           # design tokens e estilos base (design-tokens.ts)
+```
+
+Cada pasta nova tem um `README.md` com sua finalidade e convenções:
+[`components/`](./src/components/README.md), [`features/`](./src/features/README.md)
+e [`pages/`](./src/pages/README.md). Regra geral: uma feature **não** importa de
+outra — o que for compartilhado sobe para `components/` ou `lib/`. As pastas de
+`features/` e `pages/` começam como placeholders e recebem o conteúdo real a
+partir do M2.
 
 ## Ambiente de desenvolvimento com Docker
 
@@ -66,6 +112,11 @@ serão adicionados quando forem definidos (M3).
 
 ## Lint e formatação
 
+> **Decisão (ICO-49):** manter o **oxlint** (já presente no scaffold do Vite) em
+> vez de migrar para o ESLint. O oxlint é escrito em Rust, roda ordens de
+> grandeza mais rápido e já cobre as regras que precisamos para o projeto —
+> migrar para ESLint traria complexidade de configuração sem ganho prático aqui.
+
 O projeto separa as responsabilidades: **oxlint** cuida das regras de lint e **Prettier** cuida apenas da formatação de código. Como o oxlint não formata, não há conflito entre as duas ferramentas.
 
 | Script                  | Ferramenta | O que faz                                        |
@@ -86,32 +137,3 @@ Os hooks de git são gerenciados pelo [Husky](https://typicode.github.io/husky/)
 | `commit-msg` | `commitlint`  | Valida a mensagem de commit contra o padrão [Conventional Commits](https://www.conventionalcommits.org/), bloqueando commits fora do padrão |
 
 A configuração do lint-staged fica no [`package.json`](./package.json) (campo `lint-staged`) e a do commitlint em [`commitlint.config.js`](./commitlint.config.js) (estende `@commitlint/config-conventional`).
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
