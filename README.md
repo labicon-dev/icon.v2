@@ -26,6 +26,14 @@ Para reconstruir a imagem após mudar dependências (`package.json` / `pnpm-lock
 docker compose -f docker-compose.dev.yml up --build
 ```
 
+## Estilização (Tailwind CSS + tokens)
+
+O projeto usa **Tailwind CSS v4** via o plugin oficial do Vite ([`@tailwindcss/vite`](https://tailwindcss.com/docs/installation/using-vite)), habilitado em [`vite.config.ts`](./vite.config.ts). O Tailwind é importado em [`src/index.css`](./src/index.css) (`@import 'tailwindcss'`).
+
+Os tokens de design (cores, tipografia e espaçamento) vêm de [`src/styles/design-tokens.ts`](./src/styles/design-tokens.ts) — a fonte de verdade extraída do Figma (ver [`docs/design-tokens.md`](./docs/design-tokens.md)). Esse objeto é reaproveitado em [`tailwind.config.ts`](./tailwind.config.ts), carregado pelo CSS através da diretiva `@config`. Assim, as classes utilitárias (`bg-accent`, `text-hero`, `font-mono`, etc.) refletem o design system, e não os valores genéricos do template.
+
+As fontes **Space Grotesk** e **JetBrains Mono** são carregadas via Google Fonts em [`index.html`](./index.html).
+
 ## Variáveis de ambiente e integração com a API
 
 Os segredos (incluindo a **URL base da API**, que é tratada como secreto)
