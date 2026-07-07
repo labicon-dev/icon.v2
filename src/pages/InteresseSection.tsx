@@ -1,3 +1,6 @@
+import Reveal from '../components/Reveal';
+import SectionHeader from '../components/SectionHeader';
+
 interface Field {
   code: string;
   title: string;
@@ -16,7 +19,7 @@ const FIELDS: Field[] = [
     code: 'A_02',
     title: 'Inteligência Artificial',
     translation: 'Artificial Intelligence',
-    description: 'Modelos de IA aplicados à criação, percepção e interação humano-máquina.',
+    description: 'Modelos de IA aplicados à criação, à percepção e à interação humano-máquina.',
   },
   {
     code: 'A_03',
@@ -45,63 +48,71 @@ const FIELDS: Field[] = [
 ];
 
 /**
- * Seção "Áreas de Interesses" (ICO-15) — seção `interesse` do frame do
- * Figma: as linhas de pesquisa do laboratório em cards A_01–A_06. Estados
- * de hover conforme a camada SPECS do design (borda e código em accent,
- * seta ↗ no canto).
+ * Seção "Áreas de Interesse" (ICO-15) — cards A_01–A_06 na escala do
+ * protótipo do design, com hover (borda/código accent, seta ↗ deslizando,
+ * fundo levemente elevado e translateY).
  */
 function InteresseSection() {
   return (
     <section
       id="interesse"
       aria-labelledby="interesse-titulo"
-      className="mx-auto max-w-[970px] px-6 py-16 md:py-[96px]"
+      className="border-b border-border px-5 py-20 md:px-7.5 md:py-30"
     >
-      <header className="flex items-baseline justify-between gap-4">
-        <h2 id="interesse-titulo" className="font-sans text-h1 font-bold text-neutral-50">
-          <span className="mr-3 font-mono text-label font-medium text-accent">// 03</span>
-          ÁREAS DE INTERESSES
-        </h2>
-        <span aria-hidden="true" className="font-mono text-label text-neutral-650 uppercase">
-          / Fields
-        </span>
-      </header>
+      <div className="mx-auto max-w-[1320px]">
+        <Reveal>
+          <SectionHeader
+            index="03"
+            title="ÁREAS DE INTERESSE"
+            label="/ Fields"
+            headingId="interesse-titulo"
+          />
+        </Reveal>
 
-      <p className="mt-8 max-w-[640px] font-sans text-body-lg text-neutral-500">
-        Trabalho interdisciplinar e transdisciplinar da Ciência da Computação, Artes Visuais,
-        Música, Psicologia, Biologia e Eletrônica.
-      </p>
+        <Reveal>
+          <p className="mt-4 mb-12 max-w-[620px] font-sans text-body-lg text-neutral-500">
+            Trabalho inter e transdisciplinar a partir da Ciência da Computação, Artes Visuais,
+            Música, Psicologia, Biologia e Eletrônica.
+          </p>
+        </Reveal>
 
-      <ul className="mt-12 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-        {FIELDS.map(({ code, title, translation, description }) => (
-          <li
-            key={code}
-            className="group relative border border-border bg-surface px-5 py-6 transition-colors duration-300 hover:border-border-accent"
-          >
-            <span
-              aria-hidden="true"
-              className="font-mono text-label text-neutral-750 uppercase transition-colors duration-300 group-hover:text-accent"
-            >
-              {code}
-            </span>
-            <span
-              aria-hidden="true"
-              className="absolute top-5 right-5 font-sans text-body-lg text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            >
-              ↗
-            </span>
+        <Reveal>
+          <ul className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+            {FIELDS.map(({ code, title, translation, description }) => (
+              <li
+                key={code}
+                className="group flex min-h-[230px] flex-col rounded border border-border bg-surface px-6 py-7.5 transition-all duration-300 hover:-translate-y-[3px] hover:border-border-accent hover:bg-[#0c0a0f] motion-reduce:hover:translate-y-0"
+              >
+                <div className="flex items-start justify-between">
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-label text-neutral-750 uppercase transition-colors duration-300 group-hover:text-accent"
+                  >
+                    {code}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="-translate-x-1.5 translate-y-1.5 font-sans text-lead text-accent opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100"
+                  >
+                    ↗
+                  </span>
+                </div>
 
-            <h3 className="mt-6 font-sans text-h5 font-bold text-neutral-50">{title}</h3>
-            <p
-              lang="en"
-              className="mt-1 font-mono text-label-sm tracking-wide text-neutral-700 uppercase"
-            >
-              {translation}
-            </p>
-            <p className="mt-4 font-sans text-body-sm text-neutral-500">{description}</p>
-          </li>
-        ))}
-      </ul>
+                <div className="mt-auto">
+                  <h3 className="font-sans text-h3 font-bold text-neutral-50">{title}</h3>
+                  <p
+                    lang="en"
+                    className="mt-1.5 mb-3.5 font-mono text-label-sm tracking-wide text-neutral-700 uppercase"
+                  >
+                    {translation}
+                  </p>
+                  <p className="font-sans text-body text-neutral-500">{description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
     </section>
   );
 }

@@ -17,12 +17,13 @@ interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 border px-6 py-4 font-mono text-[13px] tracking-wider uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+  'inline-flex items-center justify-center gap-2 rounded border px-[26px] py-[15px] font-mono text-label tracking-wide uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'border-accent bg-accent text-neutral-950 hover:border-neutral-100 hover:bg-neutral-100',
+  primary:
+    'border-accent bg-accent font-bold text-background hover:border-neutral-50 hover:bg-neutral-50',
   secondary:
-    'border-neutral-700 bg-transparent text-neutral-50 hover:border-accent hover:bg-accent hover:text-neutral-950',
+    'border-border-muted bg-transparent text-neutral-50 hover:border-accent hover:bg-accent hover:text-background',
 };
 
 export function Button({ variant = 'primary', className = '', children, ...props }: ButtonProps) {
