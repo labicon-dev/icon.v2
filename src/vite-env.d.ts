@@ -7,6 +7,12 @@ interface ImportMetaEnv {
    * CI/deploy — nunca versionado. Ver `.env.template`.
    */
   readonly VITE_API_BASE_URL: string;
+  /**
+   * Chave da API do laboratório, enviada como header `X-API-KEY`.
+   * ATENÇÃO: toda env `VITE_*` é embutida no bundle servido ao browser — este
+   * valor é legível por qualquer visitante. Ver ARCHITECTURE/PRD.
+   */
+  readonly VITE_MEMBER_FETCH_TOKEN: string;
 }
 
 interface ImportMeta {

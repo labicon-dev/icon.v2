@@ -26,6 +26,7 @@ milestones. Todo PR deve referenciar a issue correspondente com `Resolves ICO-X`
 | UI           | React 19 + TypeScript                                         |
 | Estilo       | Tailwind CSS v4 (`@tailwindcss/vite`) + tokens do Figma       |
 | Lint         | oxlint (**não** ESLint — ver ICO-49)                          |
+| Testes       | Vitest (`pnpm run test`)                                      |
 | Formatação   | Prettier                                                      |
 | Hooks de git | Husky (`pre-commit` → lint-staged, `commit-msg` → commitlint) |
 | Package mgr  | **pnpm** (não use `npm`/`yarn`)                               |
@@ -85,16 +86,18 @@ Regra: **uma feature não importa de outra**. O que for compartilhado sobe para
 
 ## Checklist antes de abrir o PR
 
-1. [ ] `pnpm run lint` passa.
+1. [ ] `pnpm run lint` passa (oxlint sai com erro em qualquer violação).
 2. [ ] `pnpm run format:check` passa (rode `pnpm run format` se precisar).
-3. [ ] `pnpm run build` passa (type-check + build).
-4. [ ] Commits seguem [Conventional Commits](https://www.conventionalcommits.org/)
+3. [ ] `pnpm run test` passa — inclui `src/architecture.test.ts`, que impõe a
+       direção de dependência entre as camadas.
+4. [ ] `pnpm run build` passa (type-check `strict` + build).
+5. [ ] Commits seguem [Conventional Commits](https://www.conventionalcommits.org/)
        (`tipo(escopo): descrição` no imperativo) — o `commit-msg` do Husky valida.
-5. [ ] O **título do PR** também segue Conventional Commits (o workflow
+6. [ ] O **título do PR** também segue Conventional Commits (o workflow
        `PR Title` valida).
-6. [ ] O PR referencia a issue: `Resolves ICO-X`.
-7. [ ] Nenhum segredo foi commitado.
-8. [ ] O template de PR foi preenchido (o que mudou, decisões, como testar).
+7. [ ] O PR referencia a issue: `Resolves ICO-X`.
+8. [ ] Nenhum segredo foi commitado.
+9. [ ] O template de PR foi preenchido (o que mudou, decisões, como testar).
 
 > A revisão humana (ICO-21) é obrigatória e acontece **depois** do PR aberto.
 > Um agente prepara o PR; um mantenedor aprova antes do merge.
