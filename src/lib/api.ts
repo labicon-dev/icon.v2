@@ -10,6 +10,8 @@
  * quando forem definidos (M3).
  */
 
+import type { Member } from '../features/members/types';
+
 /** Erro lançado quando a API responde com status fora da faixa 2xx. */
 export class ApiError extends Error {
   readonly status: number;
@@ -29,10 +31,11 @@ export class ApiError extends Error {
  * O contrato ainda não foi formalizado pelo time; os campos abaixo são
  * provisórios e devem ser ajustados quando o schema for confirmado (M3).
  */
-export interface Member {
-  id: string | number;
-  name: string;
-  role?: string;
+export interface MemberResponse extends Member {
+  email?: string;
+  githubProfile?: string;
+  user?: {};
+  activeOnWebsite: boolean;
   [key: string]: unknown;
 }
 
@@ -70,6 +73,10 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 /** Busca todos os membros do laboratório (`GET /member/all`). */
-export function getAllMembers(): Promise<Member[]> {
-  return apiFetch<Member[]>('/member/all');
+export function getAllMembers(): Promise<MemberResponse[]> {
+  return apiFetch<MemberResponse[]>('/member/all', {
+    headers: {
+      'X-API-KEY': import.meta.env.VITE_MEMBER_FETCH_TOKEN,
+    },
+  });
 }
