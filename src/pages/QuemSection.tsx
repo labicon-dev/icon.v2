@@ -1,7 +1,9 @@
+import React from 'react';
 import MemberCard from '../features/members/components/MemberCard';
-import { members } from '../features/members/members';
 import Reveal from '../components/Reveal';
 import SectionHeader from '../components/SectionHeader';
+import { getAllMembers } from '../lib/api';
+import type { Member } from '../features/members/types';
 
 /**
  * Seção "Quem Somos" (ICO-14) — intro + grid de cards de membros na escala
@@ -9,6 +11,23 @@ import SectionHeader from '../components/SectionHeader';
  * integração com a API (M3).
  */
 function QuemSection() {
+  const [members, setMembers] = React.useState<Member[]>([]);
+
+  React.useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await getAllMembers();
+        const activeMembers = response.filter((member) => member.activeOnWebsite);
+        activeMembers.sort(() => Math.random() - 0.5);
+        setMembers(activeMembers);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
   return (
     <section
       id="quem"
@@ -25,12 +44,12 @@ function QuemSection() {
             Um time interdisciplinar de pesquisadores, desenvolvedores, artistas e designers.
           </p>
           <p className="mt-3.5 mb-12 font-mono text-label-sm text-neutral-750">
-            {'//'} equipe ilustrativa — substitua pelos integrantes reais
+            {'//'} esta equipe não é ilustrativa :{')'}
           </p>
         </Reveal>
 
         <Reveal>
-          <ul className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-5">
             {members.map((member) => (
               <li key={member.id}>
                 <MemberCard member={member} />
