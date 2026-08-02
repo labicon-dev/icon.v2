@@ -15,6 +15,10 @@ function requiredEnvValidation(): Plugin {
   return {
     name: 'icon-required-env-validation',
     config(_config, { mode }) {
+      // Testes unitários não sobem a aplicação e não devem exigir as envs de
+      // runtime — o Vitest carrega este config só para resolver o build.
+      if (process.env.VITEST) return;
+
       // Carrega as envs `VITE_*` do `.env*` e de `process.env` para o modo atual.
       const env = loadEnv(mode, process.cwd());
       validateEnv(env);

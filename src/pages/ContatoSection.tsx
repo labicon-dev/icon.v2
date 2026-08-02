@@ -142,9 +142,7 @@ function ContatoSection() {
                   type="submit"
                   className="rounded bg-background p-4 font-mono text-label font-bold tracking-wide text-accent uppercase transition-opacity hover:opacity-85"
                 >
-                  <span role="status" aria-live="polite">
-                    {sent ? '✓ Mensagem enviada' : 'Enviar ›'}
-                  </span>
+                  <output aria-live="polite">{sent ? '✓ Mensagem enviada' : 'Enviar ›'}</output>
                 </button>
               </div>
             </form>

@@ -2,7 +2,7 @@ import React from 'react';
 import MemberCard from '../features/members/components/MemberCard';
 import Reveal from '../components/Reveal';
 import SectionHeader from '../components/SectionHeader';
-import { getAllMembers } from '../lib/api';
+import { getAllMembers } from '../features/members/api';
 import type { Member } from '../features/members/types';
 
 /**

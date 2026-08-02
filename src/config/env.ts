@@ -19,7 +19,7 @@
  * Ao adicionar uma nova env obrigatória, inclua-a aqui (e em `.env.template` /
  * `ImportMetaEnv` em `src/vite-env.d.ts`). Esta é a lista canônica.
  */
-export const REQUIRED_ENV_KEYS = ['VITE_API_BASE_URL'] as const;
+export const REQUIRED_ENV_KEYS = ['VITE_API_BASE_URL', 'VITE_MEMBER_FETCH_TOKEN'] as const;
 
 export type RequiredEnvKey = (typeof REQUIRED_ENV_KEYS)[number];
 
