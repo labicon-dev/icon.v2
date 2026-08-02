@@ -11,7 +11,7 @@ import { describe, expect, it } from 'vitest';
  *
  * Direção permitida (uma camada só importa das de baixo):
  *
- *     pages  →  features  →  components / lib / config / styles
+ *     sections  →  features  →  components / lib / config / styles
  */
 
 const SRC = resolve(import.meta.dirname);
@@ -80,10 +80,10 @@ describe('src/ layers', () => {
     expect(edges.length).toBeGreaterThan(10);
   });
 
-  it.each(SHARED_LAYERS)('%s/ does not import from features/ or pages/', (layer) => {
+  it.each(SHARED_LAYERS)('%s/ does not import from features/ or sections/', (layer) => {
     const violations = edges
       .filter(({ from }) => layerOf(from) === layer)
-      .filter(({ to }) => layerOf(to) === 'features' || layerOf(to) === 'pages')
+      .filter(({ to }) => layerOf(to) === 'features' || layerOf(to) === 'sections')
       .map(({ from, to }) => `${from} → ${to}`);
 
     expect(violations).toEqual([]);
@@ -98,9 +98,9 @@ describe('src/ layers', () => {
     expect(violations).toEqual([]);
   });
 
-  it('features/ does not import from pages/', () => {
+  it('features/ does not import from sections/', () => {
     const violations = edges
-      .filter(({ from, to }) => layerOf(from) === 'features' && layerOf(to) === 'pages')
+      .filter(({ from, to }) => layerOf(from) === 'features' && layerOf(to) === 'sections')
       .map(({ from, to }) => `${from} → ${to}`);
 
     expect(violations).toEqual([]);

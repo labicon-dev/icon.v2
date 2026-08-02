@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Logo from './Logo';
+import Logo from './logo';
 
 const NAV_ITEMS = [
   { number: '01', label: 'Início', href: '#inicio' },

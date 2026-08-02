@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Logo from '../components/Logo';
-import Reveal from '../components/Reveal';
-import SectionHeader from '../components/SectionHeader';
+import Logo from '../components/logo';
+import Reveal from '../components/reveal';
+import SectionHeader from '../components/section-header';
 
 /** Horário do laboratório (Salvador — UTC-3), atualizado a cada segundo. */
 function useLabClock() {

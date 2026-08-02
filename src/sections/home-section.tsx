@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import Button from '../components/Button';
-import Marquee from '../components/Marquee';
-import NetworkField from '../components/NetworkField';
+import Button from '../components/button';
+import Marquee from '../components/marquee';
+import NetworkField from '../components/network-field';
 
 /**
  * Página Home (ICO-12 + ICO-61) — seção de entrada do site, alinhada ao
@@ -111,7 +111,7 @@ function HeroStat({ label, first = false, children }: HeroStatProps) {
   );
 }
 
-export function HomePage() {
+export function HomeSection() {
   const typed = useTypewriter(TYPED_PHRASES);
 
   return (
@@ -200,4 +200,4 @@ export function HomePage() {
   );
 }
 
-export default HomePage;
+export default HomeSection;

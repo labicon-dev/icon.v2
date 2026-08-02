@@ -1,11 +1,11 @@
-import Footer from './components/Footer';
-import Header from './components/Header';
-import ContatoSection from './pages/ContatoSection';
-import HomePage from './pages/HomePage';
-import InteresseSection from './pages/InteresseSection';
-import LiveSection from './pages/LiveSection';
-import QuemSection from './pages/QuemSection';
-import SobreSection from './pages/SobreSection';
+import Footer from './components/footer';
+import Header from './components/header';
+import ContatoSection from './sections/contato-section';
+import HomeSection from './sections/home-section';
+import InteresseSection from './sections/interesse-section';
+import LiveSection from './sections/live-section';
+import QuemSection from './sections/quem-section';
+import SobreSection from './sections/sobre-section';
 
 /**
  * Composição raiz do site single-page, na ordem do frame do Figma:
@@ -17,7 +17,7 @@ function App() {
     <>
       <Header />
       <main>
-        <HomePage />
+        <HomeSection />
         <SobreSection />
         <InteresseSection />
         <QuemSection />

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import ObfuscatedEmail from '../components/ObfuscatedEmail';
-import Reveal from '../components/Reveal';
-import SectionHeader from '../components/SectionHeader';
+import ObfuscatedEmail from '../components/obfuscated-email';
+import Reveal from '../components/reveal';
+import SectionHeader from '../components/section-header';
 
 const ADDRESS_LINES = [
   'Instituto de Humanidades, Artes e Ciências Prof. Milton Santos (IHAC) — UFBA',

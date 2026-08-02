@@ -1,7 +1,7 @@
 import React from 'react';
-import MemberCard from '../features/members/components/MemberCard';
-import Reveal from '../components/Reveal';
-import SectionHeader from '../components/SectionHeader';
+import MemberCard from '../features/members/components/member-card';
+import Reveal from '../components/reveal';
+import SectionHeader from '../components/section-header';
 import { getAllMembers } from '../features/members/api';
 import type { Member } from '../features/members/types';
 

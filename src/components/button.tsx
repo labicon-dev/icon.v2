@@ -1,14 +1,5 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
 
-/**
- * Botão de ação da Home (ICO-12), extraído do Figma. Dois variantes com estados
- * de hover observados no design:
- *   - `primary`   → fundo amarelo (accent) que clareia no hover (neutral-100).
- *   - `secondary` → contorno escuro que ganha fundo amarelo no hover.
- *
- * Renderiza como `<a>` porque as CTAs da Home apontam para seções/rotas
- * (`EXPLORAR` rola para o conteúdo, `VER AO VIVO` leva à transmissão).
- */
 type ButtonVariant = 'primary' | 'secondary';
 
 interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {

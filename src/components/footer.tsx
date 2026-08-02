@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Logo from './Logo';
-import ObfuscatedEmail from './ObfuscatedEmail';
+import Logo from './logo';
+import ObfuscatedEmail from './obfuscated-email';
 
 const NAV_LINKS = [
   { label: 'Início', href: '#inicio' },
@@ -10,7 +10,6 @@ const NAV_LINKS = [
   { label: 'Contato', href: '#contato' },
 ] as const;
 
-/** Relógio do rodapé (SITE_v2.0 · HH:MM:SS), no fuso do laboratório. */
 function useLabClock() {
   const [time, setTime] = useState('');
   useEffect(() => {
