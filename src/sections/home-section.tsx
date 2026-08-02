@@ -4,17 +4,6 @@ import Marquee from '../components/marquee';
 import NetworkField from '../components/network-field';
 import { useLabClock } from '../lib/lab-clock';
 
-/**
- * Página Home (ICO-12 + ICO-61) — seção de entrada do site, alinhada ao
- * protótipo do Claude Design (ICON.dc.html):
- *   - Fundo interativo de partículas (NetworkField) sob um gradiente radial.
- *   - Rótulo do laboratório, título display, linha typewriter com cursor,
- *     parágrafo de apresentação e CTAs.
- *   - Barra técnica fixada na base do hero (lat/long, relógio, ano, versão).
- *   - Faixa marquee amarela com as áreas de pesquisa.
- */
-
-/** Áreas de pesquisa exibidas na faixa marquee. */
 const RESEARCH_AREAS = [
   'Arte Computacional',
   'Inteligência Artificial',
@@ -27,7 +16,6 @@ const RESEARCH_AREAS = [
 /** Coordenadas do laboratório (UFBA, Salvador–BA). */
 const LAT_LONG = '13°0\'13.66"S 38°30\'34.03"W';
 
-/** Frases do typewriter do hero (protótipo dc). */
 const TYPED_PHRASES = [
   'rendering_interfaces',
   'training_models',
@@ -97,7 +85,7 @@ function HeroStat({ label, first = false, children }: HeroStatProps) {
   );
 }
 
-export function HomeSection() {
+function HomeSection() {
   const typed = useTypewriter(TYPED_PHRASES);
 
   return (
@@ -106,7 +94,8 @@ export function HomeSection() {
         aria-label="Apresentação"
         className="relative flex min-h-[calc(100vh-64px)] flex-col justify-center overflow-hidden pt-10 pb-[230px] sm:pb-[130px]"
       >
-        {/* Fundo interativo (ICO-61) + gradiente de legibilidade */}
+        {/* Partículas interativas sob um gradiente radial, que garante a
+            legibilidade do texto por cima delas */}
         <div className="absolute inset-0 z-0">
           <NetworkField />
         </div>

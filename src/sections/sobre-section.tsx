@@ -14,10 +14,6 @@ const WHAT_WE_DO = [
   'Formação e extensão na comunidade',
 ] as const;
 
-/**
- * Seção "Sobre o ICON" (ICO-13) — apresentação do laboratório, tripé A/C/E
- * e lista "O que fazemos", na escala do protótipo do design.
- */
 function SobreSection() {
   return (
     <section

@@ -4,9 +4,9 @@ Como o código deste repositório é organizado, e por quê. Para o **escopo do
 produto** (o que o site é, o que é real e o que é stub), veja [`PRD.md`](./PRD.md).
 Para **como rodar e contribuir**, veja [`README.md`](./README.md).
 
-Este documento descreve o estado **atual**, não uma intenção. Onde o código
-ainda diverge do alvo, isso está registrado em
-[Divergências conhecidas](#divergências-conhecidas) — não escondido.
+Este documento descreve o estado **atual**, não uma intenção. O que o código
+ainda deve está registrado em [Dívidas conhecidas](#dívidas-conhecidas) — não
+escondido.
 
 ## Forma da aplicação
 
@@ -155,16 +155,14 @@ src/
 - **Comentários explicam _por que_**, não _o quê_. Referência de issue pertence
   ao commit e ao Linear, não ao arquivo.
 
-## Divergências conhecidas
+## Dívidas conhecidas
 
-O que ainda não bate com o alvo descrito acima. Cada item é trabalho planejado,
-não descuido esquecido:
+Dívidas conscientes, registradas em vez de escondidas. Nenhuma tem fase
+marcada: entram quando houver motivo, não por higiene.
 
-| Divergência                                                                                                          | Fase |
-| -------------------------------------------------------------------------------------------------------------------- | ---- |
-| Export inconsistente: alguns componentes exportam default + nomeado                                                  | 4    |
-| Menu mobile fecha com `translate-x-full` + `aria-hidden`, mas os links seguem focáveis por Tab                       | 4    |
-| Comentários que descrevem o _o quê_ e referenciam issues `ICO-XX` dentro do código                                   | 4    |
-| `noUncheckedIndexedAccess` desligado — custa 32 erros, quase todos no loop do `NetworkField`                         | —    |
-| Sem validação de schema em runtime nas respostas da API                                                              | —    |
-| `useMembers` expõe `loading`/`error`, mas a UI ainda não os renderiza — falha de rede deixa a grid vazia em silêncio | —    |
+| Dívida                                                                                                         | Por que ainda não                                                                                |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `noUncheckedIndexedAccess` desligado                                                                           | Custa 32 erros, quase todos no loop de partículas do `NetworkField`                              |
+| Sem validação de schema em runtime nas respostas da API                                                        | O contrato ainda não foi formalizado pelo time; validar o instável gera churn                    |
+| `useMembers` expõe `loading`/`error`, mas a UI não os renderiza — falha de rede deixa a grid vazia em silêncio | Como a seção comunica erro é decisão de design, não de refactor                                  |
+| O menu mobile fica inerte quando fechado, mas não há focus trap nem fechamento por `Esc` quando aberto         | O bug de acessibilidade real (Tab alcançando conteúdo oculto) está resolvido; o resto é melhoria |

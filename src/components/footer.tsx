@@ -3,11 +3,6 @@ import { useLabClock } from '../lib/lab-clock';
 import Logo from './logo';
 import ObfuscatedEmail from './obfuscated-email';
 
-/**
- * Footer global (ICO-11) — logo + tagline, colunas NAVEGAÇÃO e CONTATO e
- * barra inferior com copyright, lema e versão + relógio, conforme o
- * protótipo do design.
- */
 function Footer() {
   const { label: time } = useLabClock();
 

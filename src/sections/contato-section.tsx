@@ -20,9 +20,10 @@ const INPUT_CLASSES =
   'w-full rounded border-[1.5px] border-onAccent-subtle bg-transparent px-4 py-[15px] font-mono text-body text-onAccent-strong transition-colors placeholder:text-onAccent-subtle focus:border-onAccent-strong focus:outline-none';
 
 /**
- * Seção "Entre em Contato" (ICO-17) — bloco amarelo invertido na escala do
- * protótipo do design: e-mail ofuscado, endereço, redes e formulário com
- * feedback "✓ MENSAGEM ENVIADA". O envio real (endpoint) entra na M3.
+ * ⚠️ O formulário é um STUB: exibe "✓ Mensagem enviada" e descarta o conteúdo.
+ * Não há endpoint, e-mail nem armazenamento — quem preenche acredita que fez
+ * contato. Ver `PRD.md` (seção "O que é stub"), que trata o destino do
+ * formulário como decisão de produto em aberto.
  */
 function ContatoSection() {
   const [sent, setSent] = useState(false);
