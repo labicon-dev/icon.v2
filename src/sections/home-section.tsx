@@ -59,9 +59,9 @@ function HomeSection() {
             Onde o código vira <span className="text-accent">Arte.</span>
           </h1>
 
-          <div className="mt-7.5 flex flex-wrap items-center gap-x-5 gap-y-3.5 font-mono text-body-sm">
+          <div className="mt-7.5 flex flex-col sm:flex-wrap sm:flex-row items-start sm:items-center gap-x-5 gap-y-3.5 font-mono text-body-sm">
             <span className="tracking-wide text-neutral-500 lowercase">where code becomes art</span>
-            <span className="text-neutral-800" aria-hidden="true">
+            <span className="text-neutral-800 hidden sm:block" aria-hidden="true">
               /
             </span>
             <span className="text-neutral-50">
