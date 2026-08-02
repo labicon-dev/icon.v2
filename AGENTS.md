@@ -1,120 +1,99 @@
 # AGENTS.md
 
-Guia para **agentes de IA** (e humanos) que vão implementar tarefas neste
-repositório. Boa parte do código do site do ICON v2 é gerada com apoio de
-agentes — este documento padroniza como isso deve acontecer para que a
-**revisão humana** continue sendo a etapa final e obrigatória antes do merge
-(ver [ICO-21](https://linear.app/labicon/issue/ICO-21)).
+Regras para **agentes de IA** (e humanos) que implementam tarefas neste
+repositório. Boa parte deste código é gerada com apoio de agentes — este
+documento existe para que isso não custe qualidade.
 
-Leia também o [`README.md`](./README.md), que cobre em detalhe como rodar o
-projeto, a estrutura de pastas e as decisões de tooling.
+Três documentos, três donos. Não duplique conteúdo entre eles:
 
-## Contexto do projeto
+| Documento                              | Responde                                       |
+| -------------------------------------- | ---------------------------------------------- |
+| [`README.md`](./README.md)             | Como rodar, ferramentas, fluxo de contribuição |
+| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Como o código é organizado, e por quê          |
+| [`PRD.md`](./PRD.md)                   | O que o produto é, e o que é stub              |
+| **AGENTS.md** (este)                   | O que você deve e não deve fazer ao mexer      |
 
-Front-end do novo site do Laboratório ICON — single-page, tema escuro, estética
-técnica/wireframe. O conteúdo (membros, publicações, projetos) vem de uma API do
-laboratório; a URL base é tratada como **secreto**.
+**Leia o [`PRD.md`](./PRD.md) antes de mexer em qualquer seção do site.** Partes
+que parecem prontas não estão — o formulário de contato exibe "mensagem enviada"
+sem enviar nada.
 
-O trabalho é rastreado no **Linear** (time ICON, prefixo `ICO-`), organizado por
-milestones. Todo PR deve referenciar a issue correspondente com `Resolves ICO-X`.
+## O gate
 
-## Stack
+Estes quatro comandos são a régua. Não existe "passou no meu ambiente": todos
+rodam no CI, e o build de preview da Vercel roda o lint antes do build.
 
-| Camada       | Tecnologia                                                    |
-| ------------ | ------------------------------------------------------------- |
-| Build/dev    | Vite 8                                                        |
-| UI           | React 19 + TypeScript                                         |
-| Estilo       | Tailwind CSS v4 (`@tailwindcss/vite`) + tokens do Figma       |
-| Lint         | oxlint (**não** ESLint — ver ICO-49)                          |
-| Testes       | Vitest (`pnpm run test`)                                      |
-| Formatação   | Prettier                                                      |
-| Hooks de git | Husky (`pre-commit` → lint-staged, `commit-msg` → commitlint) |
-| Package mgr  | **pnpm** (não use `npm`/`yarn`)                               |
-| Node         | **22** (fixado em [`.nvmrc`](./.nvmrc); use `nvm use`)        |
-
-## Convenções de código
-
-- **Formatação:** deixe o Prettier decidir — não brigue manualmente com o
-  estilo. No dia a dia, confie no hook `pre-commit` (lint-staged), que formata
-  **apenas os arquivos staged**. Evite rodar `pnpm run format` global: ele
-  reescreve todos os arquivos e, em Windows, pode gerar diffs "fantasma" só de
-  EOL. Config em [`.prettierrc`](./.prettierrc); EOL normalizado por
-  [`.gitattributes`](./.gitattributes).
-- **Lint:** `pnpm run lint` (oxlint). Regras em [`.oxlintrc.json`](./.oxlintrc.json).
-  Respeite as regras de hooks do React.
-- **TypeScript:** sem `any` gratuito; prefira tipos explícitos nas fronteiras
-  (props, retornos de funções de dados).
-- **Estilo visual:** use as classes utilitárias derivadas dos tokens
-  (`bg-accent`, `text-hero`, `font-mono`, …) em vez de valores hardcoded. A
-  fonte de verdade dos tokens é [`src/styles/design-tokens.ts`](./src/styles/design-tokens.ts).
-- **Env/segredos:** leia sempre de `import.meta.env.VITE_*`. Nunca hardcode a URL
-  da API nem qualquer segredo. Ao adicionar uma env obrigatória, registre-a em
-  [`src/config/env.ts`](./src/config/env.ts) (`REQUIRED_ENV_KEYS`),
-  [`.env.template`](./.env.template) e `ImportMetaEnv` (`src/vite-env.d.ts`).
-
-## Estrutura de pastas
-
-`src/` é organizado **por feature/domínio** (detalhes no README):
-
-```
-src/
-├── main.tsx          # ponto de entrada
-├── App.tsx           # composição raiz
-├── index.css         # estilos globais (Tailwind + @config dos tokens)
-├── components/       # UI reutilizável, agnóstica de domínio
-├── features/         # módulos por feature (membros, publicações, projetos…)
-├── pages/            # componentes de página/rota (M2)
-├── lib/              # utilitários e clients compartilhados (ex.: api.ts)
-├── config/           # configuração (ex.: validação de env)
-└── styles/           # design tokens e estilos base
+```bash
+pnpm run lint          # oxlint — sai != 0 em qualquer violação
+pnpm run format:check  # Prettier
+pnpm run test          # Vitest, inclui o teste de arquitetura
+pnpm run build         # tsc -b (strict) + vite build
 ```
 
-Regra: **uma feature não importa de outra**. O que for compartilhado sobe para
-`components/` ou `lib/`.
+Se você precisou afrouxar uma regra para o seu código passar, **essa é a
+discussão**, não um detalhe de configuração. Traga isso no PR em vez de
+desligar a regra silenciosamente.
+
+## Regras
+
+**Arquitetura.** A direção de dependência é `pages → features → components/lib/config/styles`,
+descrita em [`ARCHITECTURE.md`](./ARCHITECTURE.md#camadas) e **imposta por**
+[`src/architecture.test.ts`](./src/architecture.test.ts). Uma feature não importa
+de outra; o que for compartilhado sobe para `components/` ou `lib/`.
+
+**TypeScript.** `strict` está ligado. Sem `any` gratuito, tipos explícitos nas
+fronteiras (props, retornos de funções de dados).
+
+**Estilo.** Use as utilitárias derivadas dos tokens (`bg-accent`, `text-hero`,
+`font-mono`), não valores mágicos. Fonte de verdade:
+[`src/styles/design-tokens.ts`](./src/styles/design-tokens.ts).
+
+**Envs.** Leia sempre de `import.meta.env.VITE_*`. Ao adicionar uma env
+obrigatória, registre-a nos **três** lugares listados em
+[`ARCHITECTURE.md`](./ARCHITECTURE.md#segredos) — esquecer o `ImportMetaEnv` não
+dá erro, só transforma o tipo em `any` silenciosamente.
+
+**Nomes.** Arquivos em kebab-case minúsculo. Nomes de teste (`describe`/`it`) em
+inglês; comentários e documentação em português.
+
+**Comentários.** Explique o _porquê_, não o _quê_. Referência de issue pertence
+ao commit e ao Linear, não ao arquivo — não escreva `// Seção X (ICO-42)`.
 
 ## O que NÃO fazer
 
-- ❌ Não use `npm`/`yarn` — só `pnpm`.
+- ❌ Não use `npm`/`yarn` — só `pnpm` (versão fixada em `packageManager`).
 - ❌ Não migre o lint para ESLint (decisão ICO-49: manter oxlint).
-- ❌ Não commite segredos ou `.env`/`.env.local` com valores reais — só o
-  `.env.template` com chaves vazias.
+- ❌ Não commite segredos ou `.env`/`.env.local` com valores reais.
 - ❌ Não hardcode a URL da API nem outros endpoints.
 - ❌ Não crie imports cruzados entre features.
-- ❌ Não faça merge sem revisão humana — o status check `human-approval` bloqueia.
-- ❌ Não misture escopos muito diferentes num único commit/PR.
+- ❌ Não desligue regra de lint ou flag de tsconfig para fazer seu código passar.
+- ❌ Não faça merge sem revisão humana — o check `human-approval` bloqueia.
 - ❌ Não expanda o escopo além do que a issue/handoff pediu.
+- ❌ Não presuma que algo funciona porque parece pronto na UI — confira o
+  [`PRD.md`](./PRD.md#o-que-é-stub).
 
-## Checklist antes de abrir o PR
+## Antes de abrir o PR
 
-1. [ ] `pnpm run lint` passa (oxlint sai com erro em qualquer violação).
-2. [ ] `pnpm run format:check` passa (rode `pnpm run format` se precisar).
-3. [ ] `pnpm run test` passa — inclui `src/architecture.test.ts`, que impõe a
-       direção de dependência entre as camadas.
-4. [ ] `pnpm run build` passa (type-check `strict` + build).
-5. [ ] Commits seguem [Conventional Commits](https://www.conventionalcommits.org/)
-       (`tipo(escopo): descrição` no imperativo) — o `commit-msg` do Husky valida.
-6. [ ] O **título do PR** também segue Conventional Commits (o workflow
-       `PR Title` valida).
-7. [ ] O PR referencia a issue: `Resolves ICO-X`.
-8. [ ] Nenhum segredo foi commitado.
-9. [ ] O template de PR foi preenchido (o que mudou, decisões, como testar).
+1. [ ] Os quatro comandos do [gate](#o-gate) passam.
+2. [ ] Commits em [Conventional Commits](https://www.conventionalcommits.org/)
+       (`tipo(escopo): descrição`, imperativo) — o `commit-msg` do Husky valida.
+3. [ ] O **título do PR** também segue Conventional Commits (workflow `PR Title`).
+4. [ ] O PR referencia a issue: `Resolves ICO-X`.
+5. [ ] Nenhum segredo commitado.
+6. [ ] O [template de PR](./.github/pull_request_template.md) foi preenchido —
+       incluindo o que você **não** resolveu e por quê.
 
-> A revisão humana (ICO-21) é obrigatória e acontece **depois** do PR aberto.
-> Um agente prepara o PR; um mantenedor aprova antes do merge.
+> A revisão humana acontece **depois** do PR aberto. Um agente prepara
+> o trabalho; um mantenedor aprova antes do merge. Preparar bem inclui apontar
+> os pontos fracos do próprio diff.
 
 ## Fluxo com o ICON DevKit
 
-Os projetos do laboratório usam skills do **ICON DevKit** para padronizar o ciclo
-no Claude Code / Linear:
+Skills do **ICON DevKit** padronizam o ciclo no Claude Code / Linear:
 
-- **`icon-issue-creator`** — cria/planeja issues no Linear a partir de uma
-  descrição informal; quebra tarefas grandes em sub-issues por fase.
-- **`icon-handoff-executor`** — executa uma issue/handoff: cria a branch com o
-  padrão do Linear, implementa, roda os gates locais, faz commits convencionais
-  e abre o PR (`Resolves ICO-X`). Um PR por issue/fase (sem stacking).
-- **`icon-pr-review`** — self-review do diff contra os padrões do laboratório
-  antes de abrir/atualizar o PR.
-- **`icon-cycle-review`** — panorama do andamento do projeto no Linear.
+- **`icon-issue-creator`** — cria/planeja issues, quebra tarefas grandes em fases.
+- **`icon-handoff-executor`** — executa uma issue: branch, implementação, gates,
+  commits convencionais, PR (`Resolves ICO-X`). Um PR por fase, sem stacking.
+- **`icon-pr-review`** — self-review do diff antes de abrir o PR.
+- **`icon-cycle-review`** — panorama do andamento no Linear.
 
-Esses fluxos **não substituem** a revisão humana — apenas preparam o trabalho
-para ela.
+Elas preparam o trabalho; **não substituem** a revisão humana.
