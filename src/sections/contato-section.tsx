@@ -9,11 +9,9 @@ const ADDRESS_LINES = [
   'Salvador — BA, Brasil',
 ] as const;
 
-// TODO(revisão): confirmar os perfis oficiais do laboratório.
 const SOCIAL_LINKS = [
-  { label: 'Instagram', href: 'https://www.instagram.com/icon.ufba' },
+  { label: 'Instagram', href: 'https://www.instagram.com/@lab.icon' },
   { label: 'GitHub', href: 'https://github.com/labicon-dev' },
-  { label: 'YouTube', href: 'https://www.youtube.com/@iconufba' },
 ] as const;
 
 const INPUT_CLASSES =
@@ -45,7 +43,7 @@ function ContatoSection() {
       aria-labelledby="contato-titulo"
       className="bg-accent px-5 py-20 md:px-7.5 md:py-27.5"
     >
-      <div className="mx-auto max-w-[1320px]">
+      <div className="mx-auto max-w-330">
         <Reveal>
           <SectionHeader
             index="06"
@@ -59,7 +57,7 @@ function ContatoSection() {
           </p>
         </Reveal>
 
-        <div className="grid gap-12 md:grid-cols-[1fr_1.1fr] md:gap-[60px]">
+        <div className="grid gap-12 md:grid-cols-[1fr_1.1fr] md:gap-15">
           <Reveal>
             <ObfuscatedEmail
               user="icon"
@@ -72,7 +70,7 @@ function ContatoSection() {
             <p className="mt-11 font-mono text-label-sm tracking-wider text-onAccent-muted uppercase">
               Endereço / Address
             </p>
-            <address className="mt-2.5 max-w-[380px] font-sans text-h5 leading-[1.7] not-italic text-onAccent-strong">
+            <address className="mt-2.5 max-w-95 font-sans text-h5 leading-[1.7] not-italic text-onAccent-strong">
               {ADDRESS_LINES.map((line) => (
                 <span key={line} className="block">
                   {line}

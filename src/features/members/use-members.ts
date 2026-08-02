@@ -2,13 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllMembers } from './api';
 import type { Member } from './types';
 
-/**
- * Embaralha uma cópia da lista (Fisher-Yates).
- *
- * A ordem aleatória é decisão de produto — a equipe não é hierarquizada
- * visualmente. `sort(() => Math.random() - 0.5)`, usado antes, produz
- * distribuição enviesada porque o comparador é inconsistente.
- */
+// Embaralha uma cópia da lista de membros (Fisher-Yates).
 function shuffle<T>(items: readonly T[]): T[] {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
@@ -24,7 +18,6 @@ export interface UseMembersResult {
   error: Error | null;
 }
 
-/** Membros ativos no site, em ordem aleatória a cada carregamento. */
 export function useMembers(): UseMembersResult {
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,10 +31,10 @@ export function useMembers(): UseMembersResult {
         const response = await getAllMembers();
         if (!active) return;
         setMembers(shuffle(response.filter((member) => member.activeOnWebsite)));
-      } catch (cause: unknown) {
+      } catch (e: unknown) {
         if (!active) return;
-        setError(cause instanceof Error ? cause : new Error(String(cause)));
-        console.error(cause);
+        setError(e instanceof Error ? e : new Error(String(e)));
+        console.error(e);
       } finally {
         if (active) setLoading(false);
       }

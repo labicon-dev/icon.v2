@@ -54,7 +54,7 @@ function InteresseSection() {
       aria-labelledby="interesse-titulo"
       className="border-b border-border px-5 py-20 md:px-7.5 md:py-30"
     >
-      <div className="mx-auto max-w-[1320px]">
+      <div className="mx-auto max-w-330">
         <Reveal>
           <SectionHeader
             index="03"
@@ -65,7 +65,7 @@ function InteresseSection() {
         </Reveal>
 
         <Reveal>
-          <p className="mt-4 mb-12 max-w-[620px] font-sans text-body-lg text-neutral-500">
+          <p className="mt-4 mb-12 max-w-155 font-sans text-body-lg text-neutral-500">
             Trabalho inter e transdisciplinar a partir da Ciência da Computação, Artes Visuais,
             Música, Psicologia, Biologia e Eletrônica.
           </p>
@@ -76,7 +76,7 @@ function InteresseSection() {
             {FIELDS.map(({ code, title, translation, description }) => (
               <li
                 key={code}
-                className="group flex min-h-[230px] flex-col rounded border border-border bg-surface px-6 py-7.5 transition-all duration-300 hover:-translate-y-[3px] hover:border-border-accent hover:bg-[#0c0a0f] motion-reduce:hover:translate-y-0"
+                className="group flex min-h-57.5 flex-col rounded border border-border bg-surface px-6 py-7.5 transition-all duration-300 hover:-translate-y-0.75 hover:border-border-accent hover:bg-[#0c0a0f] motion-reduce:hover:translate-y-0"
               >
                 <div className="flex items-start justify-between">
                   <span

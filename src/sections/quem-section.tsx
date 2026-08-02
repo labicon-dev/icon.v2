@@ -3,9 +3,6 @@ import SectionHeader from '../components/section-header';
 import MemberCard from '../features/members/components/member-card';
 import { useMembers } from '../features/members/use-members';
 
-/**
- * Seção "Quem Somos" — intro + grid de cards da equipe, vinda da API.
- */
 function QuemSection() {
   const { members } = useMembers();
 
@@ -15,13 +12,13 @@ function QuemSection() {
       aria-labelledby="quem-titulo"
       className="border-b border-border px-5 py-20 md:px-7.5 md:py-30"
     >
-      <div className="mx-auto max-w-[1320px]">
+      <div className="mx-auto max-w-330">
         <Reveal>
           <SectionHeader index="04" title="QUEM SOMOS" label="/ Team" headingId="quem-titulo" />
         </Reveal>
 
         <Reveal>
-          <p className="mt-4 max-w-[620px] font-sans text-body-lg text-neutral-500">
+          <p className="mt-4 max-w-155 font-sans text-body-lg text-neutral-500">
             Um time interdisciplinar de pesquisadores, desenvolvedores, artistas e designers.
           </p>
           <p className="mt-3.5 mb-12 font-mono text-label-sm text-neutral-750">

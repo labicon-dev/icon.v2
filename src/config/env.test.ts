@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 
 import { REQUIRED_ENV_KEYS, findMissingEnvKeys, formatMissingEnvError, validateEnv } from './env';
 
-/** Fonte de env válida — todas as chaves obrigatórias preenchidas. */
 function completeEnv(): Record<string, unknown> {
   return Object.fromEntries(REQUIRED_ENV_KEYS.map((key) => [key, 'valor']));
 }
