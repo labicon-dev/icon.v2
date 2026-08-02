@@ -1,29 +1,12 @@
 import { useEffect, useState } from 'react';
-import Logo from './Logo';
-
-const NAV_ITEMS = [
-  { number: '01', label: 'Início', href: '#inicio' },
-  { number: '02', label: 'Sobre', href: '#sobre' },
-  { number: '03', label: 'Áreas', href: '#interesse' },
-  { number: '04', label: 'Equipe', href: '#quem' },
-  { number: '06', label: 'Contato', href: '#contato' },
-] as const;
-
-/** Itens do menu mobile seguem a numeração das seções (05 = Ao Vivo). */
-const MOBILE_ITEMS = [
-  { number: '01', label: 'Início', href: '#inicio' },
-  { number: '02', label: 'Sobre', href: '#sobre' },
-  { number: '03', label: 'Áreas', href: '#interesse' },
-  { number: '04', label: 'Equipe', href: '#quem' },
-  { number: '05', label: 'Ao Vivo', href: '#live' },
-  { number: '06', label: 'Contato', href: '#contato' },
-] as const;
+import { HEADER_NAV, LIVE_HREF, MOBILE_NAV } from '../config/sections';
+import Logo from './logo';
 
 /** Item destacado do nav que aponta para a transmissão (seção `live`). */
 function LiveNavLink() {
   return (
     <a
-      href="#live"
+      href={LIVE_HREF}
       className="flex items-center gap-2 font-mono text-label font-medium text-accent uppercase transition-opacity hover:opacity-80"
     >
       <span
@@ -60,7 +43,7 @@ function Header() {
         </a>
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-6 md:flex">
-          {NAV_ITEMS.map(({ number, label, href }) => (
+          {HEADER_NAV.map(({ number, short, href }) => (
             <a
               key={href}
               href={href}
@@ -69,7 +52,7 @@ function Header() {
               <span aria-hidden="true" className="mr-1 text-neutral-750">
                 {number}
               </span>
-              {label}
+              {short}
             </a>
           ))}
           <LiveNavLink />
@@ -108,7 +91,7 @@ function Header() {
         </div>
 
         <nav aria-label="Navegação principal" className="mt-9 flex flex-col">
-          {MOBILE_ITEMS.map(({ number, label, href }) => (
+          {MOBILE_NAV.map(({ number, short, href }) => (
             <a
               key={href}
               href={href}
@@ -118,7 +101,7 @@ function Header() {
               <span aria-hidden="true" className="font-mono text-body-sm text-accent">
                 {number}
               </span>
-              {label}
+              {short}
             </a>
           ))}
         </nav>

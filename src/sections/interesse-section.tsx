@@ -1,5 +1,5 @@
-import Reveal from '../components/Reveal';
-import SectionHeader from '../components/SectionHeader';
+import Reveal from '../components/reveal';
+import SectionHeader from '../components/section-header';
 
 interface Field {
   code: string;

@@ -54,18 +54,18 @@ do template padrão do Vite.
 ```
 src/
 ├── main.tsx              # ponto de entrada — valida envs e monta o React no #root
-├── App.tsx               # composição raiz da aplicação
+├── app.tsx               # composição raiz da aplicação
 ├── index.css             # estilos globais (Tailwind + @config dos tokens)
 ├── architecture.test.ts  # impõe a direção de dependência entre as camadas
 ├── components/           # UI reutilizável, agnóstica de domínio
 ├── features/             # módulos por domínio (hoje: members)
-├── pages/                # seções da página única
-├── lib/                  # client HTTP genérico
-├── config/               # validação de env
+├── sections/             # as seis seções da página única
+├── lib/                  # client HTTP genérico e relógio do laboratório
+├── config/               # validação de env e navegação do site
 └── styles/               # design tokens
 ```
 
-A direção de dependência é `pages → features → components/lib/config/styles`, e
+A direção de dependência é `sections → features → components/lib/config/styles`, e
 não é convenção de confiança: `src/architecture.test.ts` falha o build se ela for
 violada. **Detalhes, o porquê de cada camada e as divergências conhecidas estão
 em [`ARCHITECTURE.md`](./ARCHITECTURE.md).**
