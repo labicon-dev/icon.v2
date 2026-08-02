@@ -1,32 +1,13 @@
-import React from 'react';
-import MemberCard from '../features/members/components/member-card';
 import Reveal from '../components/reveal';
 import SectionHeader from '../components/section-header';
-import { getAllMembers } from '../features/members/api';
-import type { Member } from '../features/members/types';
+import MemberCard from '../features/members/components/member-card';
+import { useMembers } from '../features/members/use-members';
 
 /**
- * Seção "Quem Somos" (ICO-14) — intro + grid de cards de membros na escala
- * do protótipo do design. Dados mockados (equipe ilustrativa) até a
- * integração com a API (M3).
+ * Seção "Quem Somos" — intro + grid de cards da equipe, vinda da API.
  */
 function QuemSection() {
-  const [members, setMembers] = React.useState<Member[]>([]);
-
-  React.useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const response = await getAllMembers();
-        const activeMembers = response.filter((member) => member.activeOnWebsite);
-        activeMembers.sort(() => Math.random() - 0.5);
-        setMembers(activeMembers);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchMembers();
-  }, []);
+  const { members } = useMembers();
 
   return (
     <section

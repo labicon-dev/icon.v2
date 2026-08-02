@@ -1,32 +1,7 @@
-import { useEffect, useState } from 'react';
+import { FOOTER_NAV } from '../config/sections';
+import { useLabClock } from '../lib/lab-clock';
 import Logo from './logo';
 import ObfuscatedEmail from './obfuscated-email';
-
-const NAV_LINKS = [
-  { label: 'Início', href: '#inicio' },
-  { label: 'Sobre', href: '#sobre' },
-  { label: 'Áreas de Interesse', href: '#interesse' },
-  { label: 'Quem Somos', href: '#quem' },
-  { label: 'Contato', href: '#contato' },
-] as const;
-
-function useLabClock() {
-  const [time, setTime] = useState('');
-  useEffect(() => {
-    const fmt = new Intl.DateTimeFormat('pt-BR', {
-      timeZone: 'America/Bahia',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-    const tick = () => setTime(fmt.format(new Date()));
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, []);
-  return time;
-}
 
 /**
  * Footer global (ICO-11) — logo + tagline, colunas NAVEGAÇÃO e CONTATO e
@@ -34,7 +9,7 @@ function useLabClock() {
  * protótipo do design.
  */
 function Footer() {
-  const time = useLabClock();
+  const { label: time } = useLabClock();
 
   return (
     <footer className="bg-background px-5 pt-16 pb-10 md:px-7.5">
@@ -53,13 +28,13 @@ function Footer() {
               Navegação
             </p>
             <ul className="mt-4 flex flex-col gap-2.5">
-              {NAV_LINKS.map(({ label, href }) => (
+              {FOOTER_NAV.map(({ long, href }) => (
                 <li key={href}>
                   <a
                     href={href}
                     className="font-sans text-body text-neutral-200 transition-colors hover:text-accent"
                   >
-                    {label}
+                    {long}
                   </a>
                 </li>
               ))}

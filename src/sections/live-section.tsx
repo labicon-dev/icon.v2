@@ -1,29 +1,7 @@
-import { useEffect, useState } from 'react';
 import Logo from '../components/logo';
 import Reveal from '../components/reveal';
 import SectionHeader from '../components/section-header';
-
-/** Horário do laboratório (Salvador — UTC-3), atualizado a cada segundo. */
-function useLabClock() {
-  const [time, setTime] = useState(() => formatLabTime());
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(formatLabTime()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return time;
-}
-
-function formatLabTime() {
-  return new Intl.DateTimeFormat('pt-BR', {
-    timeZone: 'America/Bahia',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  }).format(new Date());
-}
+import { useLabClock } from '../lib/lab-clock';
 
 /**
  * Seção "Ao Vivo" (ICO-62) — moldura de vídeo com barra de status,
@@ -31,7 +9,7 @@ function formatLabTime() {
  * do design. O feed real entra na M3.
  */
 function LiveSection() {
-  const time = useLabClock();
+  const { label: time } = useLabClock();
 
   return (
     <section

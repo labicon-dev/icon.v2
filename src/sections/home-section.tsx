@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '../components/button';
 import Marquee from '../components/marquee';
 import NetworkField from '../components/network-field';
+import { useLabClock } from '../lib/lab-clock';
 
 /**
  * Página Home (ICO-12 + ICO-61) — seção de entrada do site, alinhada ao
@@ -35,28 +36,13 @@ const TYPED_PHRASES = [
   'arte ∩ ciência',
 ];
 
-function formatTime(date: Date): string {
-  return date.toLocaleTimeString('pt-BR', {
-    timeZone: 'America/Bahia',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  });
-}
-
-/** Relógio ao vivo (campo "TEMPO" da barra técnica), atualizado a cada segundo. */
+/** Relógio do campo "TEMPO" da barra técnica. */
 function LiveClock() {
-  const [now, setNow] = useState(() => new Date());
-
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
+  const { date, label } = useLabClock();
 
   return (
-    <time dateTime={now.toISOString()} className="text-accent">
-      {formatTime(now)}
+    <time dateTime={date.toISOString()} className="text-accent">
+      {label}
     </time>
   );
 }

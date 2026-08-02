@@ -35,7 +35,7 @@ desligar a regra silenciosamente.
 
 ## Regras
 
-**Arquitetura.** A direção de dependência é `pages → features → components/lib/config/styles`,
+**Arquitetura.** A direção de dependência é `sections → features → components/lib/config/styles`,
 descrita em [`ARCHITECTURE.md`](./ARCHITECTURE.md#camadas) e **imposta por**
 [`src/architecture.test.ts`](./src/architecture.test.ts). Uma feature não importa
 de outra; o que for compartilhado sobe para `components/` ou `lib/`.

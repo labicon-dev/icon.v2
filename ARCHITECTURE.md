@@ -10,7 +10,7 @@ ainda diverge do alvo, isso está registrado em
 
 ## Forma da aplicação
 
-Single-page estático: sem router, sem servidor, sem SSR. O `App.tsx` compõe as
+Single-page estático: sem router, sem servidor, sem SSR. O `app.tsx` compõe as
 seções na ordem do design e a navegação é por âncora (`#inicio`, `#sobre`, …).
 O build é um bundle estático servido por CDN/nginx; os dados vêm de uma API
 externa do laboratório, consumida direto do browser.
@@ -22,20 +22,20 @@ construção (ver [Segredos](#segredos)).
 ## Camadas
 
 ```
-pages/  ──►  features/  ──►  components/ · lib/ · config/ · styles/
+sections/  ──►  features/  ──►  components/ · lib/ · config/ · styles/
 ```
 
 A seta é a **única** direção permitida. Uma camada importa das que estão à sua
 direita, nunca à esquerda.
 
-| Camada        | Contém                                                  | Não pode                                       |
-| ------------- | ------------------------------------------------------- | ---------------------------------------------- |
-| `pages/`      | Composição de tela. Puxa de `features/` e `components/` | —                                              |
-| `features/`   | Um domínio coeso: componentes, tipos, chamadas de API   | Importar de outra feature, nem de `pages/`     |
-| `components/` | UI reutilizável, agnóstica de domínio                   | Conhecer membros, publicações ou qualquer dado |
-| `lib/`        | Infra compartilhada — hoje o client HTTP genérico       | Conhecer domínio                               |
-| `config/`     | Configuração e validação (envs)                         | Conhecer domínio                               |
-| `styles/`     | Design tokens, fonte de verdade do Tailwind             | Conhecer domínio                               |
+| Camada        | Contém                                                   | Não pode                                       |
+| ------------- | -------------------------------------------------------- | ---------------------------------------------- |
+| `sections/`   | Composição de tela. Puxa de `features/` e `components/`  | —                                              |
+| `features/`   | Um domínio coeso: componentes, tipos, chamadas de API    | Importar de outra feature, nem de `sections/`  |
+| `components/` | UI reutilizável, agnóstica de domínio                    | Conhecer membros, publicações ou qualquer dado |
+| `lib/`        | Infra compartilhada: client HTTP, relógio do laboratório | Conhecer domínio                               |
+| `config/`     | Configuração: validação de envs e navegação do site      | Conhecer domínio                               |
+| `styles/`     | Design tokens, fonte de verdade do Tailwind              | Conhecer domínio                               |
 
 ### Isto é verificado, não confiado
 
@@ -65,9 +65,10 @@ Uma feature agrupa tudo que é próprio de um domínio:
 
 ```
 features/members/
-├── api.ts        # endpoints deste domínio, sobre o apiFetch de lib/
-├── types.ts      # tipos do domínio, na forma que a UI consome
-└── components/   # UI específica da feature
+├── api.ts           # endpoints deste domínio, sobre o apiFetch de lib/
+├── types.ts         # tipos do domínio, na forma que a UI consome
+├── use-members.ts   # hook de dados — a seção não busca nada por conta própria
+└── components/      # UI específica da feature
 ```
 
 `lib/api.ts` expõe `apiFetch` e `ApiError` e **não conhece nenhum domínio**. Cada
@@ -131,14 +132,15 @@ Esquecer o item 3 não dá erro: o tipo cai no index signature do Vite e vira
 ```
 src/
 ├── main.tsx              # entrada — valida envs e monta o React
-├── App.tsx               # composição raiz das seções
+├── app.tsx               # composição raiz das seções
 ├── index.css             # Tailwind + @config dos tokens
 ├── architecture.test.ts  # impõe as regras deste documento
 ├── components/           # UI agnóstica de domínio
-├── features/             # módulos por domínio (hoje: members)
-├── pages/                # seções da página única
-├── lib/                  # client HTTP genérico
-├── config/               # validação de env (+ testes)
+├── features/
+│   └── members/          # api.ts · types.ts · use-members.ts · components/
+├── sections/             # as seis seções da página única
+├── lib/                  # api.ts (client HTTP) · lab-clock.ts
+├── config/               # env.ts (validação) · sections.ts (navegação)
 └── styles/               # design tokens
 ```
 
@@ -158,14 +160,11 @@ src/
 O que ainda não bate com o alvo descrito acima. Cada item é trabalho planejado,
 não descuido esquecido:
 
-| Divergência                                                                                    | Fase |
-| ---------------------------------------------------------------------------------------------- | ---- |
-| `pages/` guarda seções de uma página só, não páginas de rota — deveriam estar em `sections/`   | 3    |
-| `QuemSection` busca dados inline; deveria consumir um hook da feature (`useMembers`)           | 3    |
-| Nomes de arquivo ainda em PascalCase                                                           | 3    |
-| Três implementações independentes do relógio de Salvador (`HomePage`, `LiveSection`, `Footer`) | 3    |
-| Três listas de navegação (`NAV_ITEMS`, `MOBILE_ITEMS` no Header; `NAV_LINKS` no Footer)        | 3    |
-| Export inconsistente: alguns componentes exportam default + nomeado                            | 4    |
-| Menu mobile fecha com `translate-x-full` + `aria-hidden`, mas os links seguem focáveis por Tab | 4    |
-| `noUncheckedIndexedAccess` desligado — custa 32 erros, quase todos no loop do `NetworkField`   | —    |
-| Sem validação de schema em runtime nas respostas da API                                        | —    |
+| Divergência                                                                                                          | Fase |
+| -------------------------------------------------------------------------------------------------------------------- | ---- |
+| Export inconsistente: alguns componentes exportam default + nomeado                                                  | 4    |
+| Menu mobile fecha com `translate-x-full` + `aria-hidden`, mas os links seguem focáveis por Tab                       | 4    |
+| Comentários que descrevem o _o quê_ e referenciam issues `ICO-XX` dentro do código                                   | 4    |
+| `noUncheckedIndexedAccess` desligado — custa 32 erros, quase todos no loop do `NetworkField`                         | —    |
+| Sem validação de schema em runtime nas respostas da API                                                              | —    |
+| `useMembers` expõe `loading`/`error`, mas a UI ainda não os renderiza — falha de rede deixa a grid vazia em silêncio | —    |
