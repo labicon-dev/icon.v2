@@ -1,17 +1,11 @@
 import { useEffect, useRef } from 'react';
 
 interface NetworkFieldProps {
-  /** Cor de fundo (também usada no rastro/trail). */
   bg?: string;
-  /** Cor das linhas/nós neutros. */
   line?: string;
-  /** Cor dos nós/ligações de destaque. */
   accent?: string;
-  /** Largura ÷ density = quantidade de nós (40–220). */
   density?: number;
-  /** Opacidade do "apagador" por frame — menor = rastro mais longo. */
   trail?: number;
-  /** Fração de nós na cor de destaque. */
   accentRatio?: number;
   className?: string;
 }
@@ -25,7 +19,7 @@ interface Unit {
 }
 
 function toRGB(c: string): [number, number, number] {
-  if (c[0] === '#') {
+  if (c.startsWith('#')) {
     const h = c.slice(1);
     const n =
       h.length === 3
@@ -34,7 +28,11 @@ function toRGB(c: string): [number, number, number] {
             .map((x) => x + x)
             .join('')
         : h;
-    return [parseInt(n.slice(0, 2), 16), parseInt(n.slice(2, 4), 16), parseInt(n.slice(4, 6), 16)];
+    return [
+      Number.parseInt(n.slice(0, 2), 16),
+      Number.parseInt(n.slice(2, 4), 16),
+      Number.parseInt(n.slice(4, 6), 16),
+    ];
   }
   return [108, 108, 120];
 }
@@ -53,7 +51,7 @@ function NetworkField({
   trail = 0.16,
   accentRatio = 0.1,
   className = '',
-}: NetworkFieldProps) {
+}: Readonly<NetworkFieldProps>) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -79,7 +77,7 @@ function NetworkField({
     function spawn(y: number | null): Unit {
       return {
         x: Math.random() * width,
-        y: y == null ? -10 : y,
+        y: y ?? -10,
         vx: (Math.random() - 0.5) * 0.5,
         vy: Math.random() * 0.45 + 0.18,
         accent: Math.random() < accentRatio,
@@ -140,7 +138,7 @@ function NetworkField({
           const b = units[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
+          const d = Math.hypot(dx, dy);
           if (d > LINK_MIN && d < LINK_MAX) {
             const t = 1 - (d - LINK_MIN) / (LINK_MAX - LINK_MIN);
             const acc = a.accent && b.accent;
@@ -200,9 +198,7 @@ function NetworkField({
     };
   }, [bg, line, accent, density, trail, accentRatio]);
 
-  return (
-    <canvas ref={canvasRef} aria-hidden="true" className={`block size-full ${className}`.trim()} />
-  );
+  return <canvas ref={canvasRef} className={`block size-full ${className}`.trim()} />;
 }
 
 export default NetworkField;

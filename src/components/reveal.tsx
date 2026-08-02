@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-/**
- * Scroll-reveal do protótipo do design: o bloco entra com fade + leve
- * deslocamento vertical quando fica visível (IntersectionObserver).
- * `prefers-reduced-motion` desativa tudo via CSS (ver index.css).
- */
-function Reveal({ children, className = '' }: { children: ReactNode; className?: string }) {
+function Reveal({
+  children,
+  className = '',
+}: Readonly<{ children: ReactNode; className?: string }>) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 

@@ -5,11 +5,10 @@
  */
 interface LogoProps {
   className?: string;
-  /** Prefixo único para os ids internos do SVG (evita ids duplicados no DOM). */
   idPrefix?: string;
 }
 
-function Logo({ className = '', idPrefix = 'logo' }: LogoProps) {
+function Logo({ className = '', idPrefix = 'logo' }: Readonly<LogoProps>) {
   const patternId = `${idPrefix}-hatch`;
   return (
     <span className={`inline-flex items-center gap-2 ${className}`.trim()}>

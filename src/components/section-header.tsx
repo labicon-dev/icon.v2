@@ -1,20 +1,18 @@
 interface SectionHeaderProps {
-  /** Número da seção no design (ex.: "02"). */
   index: string;
   title: string;
-  /** Rótulo à direita (ex.: "/ About"). */
   label: string;
-  /** id do heading, referenciado pelo aria-labelledby da seção. */
   headingId: string;
-  /** Cores invertidas para a seção amarela (Contato). */
   onAccent?: boolean;
 }
 
-/**
- * Cabeçalho padrão de seção do design: "// 0X" em mono + título grande +
- * rótulo bilíngue alinhado à direita.
- */
-function SectionHeader({ index, title, label, headingId, onAccent = false }: SectionHeaderProps) {
+function SectionHeader({
+  index,
+  title,
+  label,
+  headingId,
+  onAccent = false,
+}: Readonly<SectionHeaderProps>) {
   return (
     <div className="flex items-baseline gap-4">
       <span

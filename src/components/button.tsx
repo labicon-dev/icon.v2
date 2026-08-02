@@ -17,7 +17,12 @@ const variants: Record<ButtonVariant, string> = {
     'border-border-muted bg-transparent text-neutral-50 hover:border-accent hover:bg-accent hover:text-background',
 };
 
-function Button({ variant = 'primary', className = '', children, ...props }: ButtonProps) {
+function Button({
+  variant = 'primary',
+  className = '',
+  children,
+  ...props
+}: Readonly<ButtonProps>) {
   return (
     <a className={`${base} ${variants[variant]} ${className}`.trim()} {...props}>
       {children}
