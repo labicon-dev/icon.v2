@@ -1,13 +1,10 @@
 import type { ReactNode } from 'react';
 
 /**
- * Faixa marquee (ICO-12) — texto em rolagem horizontal contínua, como a faixa
- * amarela das áreas de pesquisa na Home do Figma.
- *
  * A sequência de itens é renderizada duas vezes lado a lado; a animação
- * `marquee` (definida em `src/index.css`) desloca o trilho em -50%, criando um
- * loop sem emenda. A duração é configurável via a custom property
- * `--marquee-duration`. Respeita `prefers-reduced-motion` (ver o CSS).
+ * `marquee` (em `src/index.css`) desloca o trilho em -50%, criando um loop sem
+ * emenda. A duração vem da custom property `--marquee-duration`, e o CSS
+ * respeita `prefers-reduced-motion`.
  */
 interface MarqueeProps {
   items: string[];
@@ -17,12 +14,7 @@ interface MarqueeProps {
   className?: string;
 }
 
-export function Marquee({
-  items,
-  separator = '✦',
-  durationSeconds = 30,
-  className = '',
-}: MarqueeProps) {
+function Marquee({ items, separator = '✦', durationSeconds = 30, className = '' }: MarqueeProps) {
   const sequence = items.map((item, i) => (
     <span key={i} className="flex items-center">
       <span className="px-4">{item}</span>

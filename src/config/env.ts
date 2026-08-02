@@ -1,33 +1,19 @@
 /**
- * Fonte única e centralizada das variáveis de ambiente obrigatórias e a
- * validação que roda no boot da aplicação.
+ * Validação "falha rápido" das envs obrigatórias: sem elas o dev server não
+ * sobe e o build quebra, com a lista do que falta — em vez de publicar um site
+ * que só quebra em runtime.
  *
- * A ideia é "falhar rápido": se alguma env obrigatória estiver ausente ou
- * vazia, o processo não sobe (dev), o `build` quebra e o app não renderiza —
- * com uma mensagem clara listando exatamente o que falta. Evita o cenário de
- * "subiu em produção sem a env certa e só quebra em runtime".
- *
- * Este módulo é importado tanto pelo runtime (browser, em `main.tsx`) quanto
- * pelo build (`vite.config.ts`, contexto Node). Por isso ele NÃO pode
- * referenciar `import.meta.env` nem nenhuma API específica de browser/Node no
- * escopo do módulo: quem valida passa a fonte das variáveis como argumento.
+ * Este módulo roda tanto no browser (`main.tsx`) quanto no Node (`vite.config.ts`),
+ * por isso não pode tocar `import.meta.env` no escopo do módulo: quem chama
+ * passa a fonte das variáveis como argumento.
  */
 
-/**
- * Chaves de ambiente obrigatórias para a aplicação subir.
- *
- * Ao adicionar uma nova env obrigatória, inclua-a aqui (e em `.env.template` /
- * `ImportMetaEnv` em `src/vite-env.d.ts`). Esta é a lista canônica.
- */
+/** Lista canônica. Ao incluir uma chave aqui, registre-a também em `.env.template` e em `ImportMetaEnv`. */
 export const REQUIRED_ENV_KEYS = ['VITE_API_BASE_URL', 'VITE_MEMBER_FETCH_TOKEN'] as const;
 
 export type RequiredEnvKey = (typeof REQUIRED_ENV_KEYS)[number];
 
-/**
- * Retorna as chaves obrigatórias que estão ausentes ou vazias em `source`.
- * Considera "vazio" tanto `undefined`/valor não-string quanto string só com
- * espaços em branco.
- */
+/** "Vazio" cobre ausente, não-string e string só com espaços. */
 export function findMissingEnvKeys(source: Record<string, unknown>): RequiredEnvKey[] {
   return REQUIRED_ENV_KEYS.filter((key) => {
     const value = source[key];
@@ -35,7 +21,6 @@ export function findMissingEnvKeys(source: Record<string, unknown>): RequiredEnv
   });
 }
 
-/** Monta a mensagem de erro listando exatamente as chaves que faltam. */
 export function formatMissingEnvError(missing: readonly string[]): string {
   return [
     `Variáveis de ambiente obrigatórias ausentes ou vazias: ${missing.join(', ')}.`,
@@ -48,11 +33,7 @@ export function formatMissingEnvError(missing: readonly string[]): string {
   ].join('\n');
 }
 
-/**
- * Valida `source` e lança um erro claro se faltar alguma env obrigatória.
- * `source` pode ser `import.meta.env` (browser) ou o resultado de `loadEnv`
- * do Vite (build).
- */
+/** `source` é `import.meta.env` no browser, ou o `loadEnv` do Vite no build. */
 export function validateEnv(source: Record<string, unknown>): void {
   const missing = findMissingEnvKeys(source);
   if (missing.length > 0) {

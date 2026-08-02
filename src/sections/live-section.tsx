@@ -4,9 +4,8 @@ import SectionHeader from '../components/section-header';
 import { useLabClock } from '../lib/lab-clock';
 
 /**
- * Seção "Ao Vivo" (ICO-62) — moldura de vídeo com barra de status,
- * scanlines animadas, marca "● REC" e cantoneiras, na escala do protótipo
- * do design. O feed real entra na M3.
+ * ⚠️ A moldura é um STUB: não há stream. O relógio ao vivo e a marca "● REC"
+ * reforçam a impressão de que o feed está no ar. Ver `PRD.md`.
  */
 function LiveSection() {
   const { label: time } = useLabClock();

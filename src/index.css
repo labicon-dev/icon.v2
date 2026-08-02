@@ -24,8 +24,8 @@
   }
 }
 
-/* Faixa marquee (componente Marquee, ICO-12): desloca o trilho em -50% para um
-   loop contínuo, já que a sequência de itens é duplicada lado a lado. */
+/* Desloca o trilho em -50% para um loop contínuo, já que a sequência de
+   itens é duplicada lado a lado (ver o componente Marquee). */
 @keyframes marquee {
   to {
     transform: translateX(-50%);

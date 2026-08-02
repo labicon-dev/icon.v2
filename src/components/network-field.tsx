@@ -40,10 +40,8 @@ function toRGB(c: string): [number, number, number] {
 }
 
 /**
- * Campo de partículas do hero (ICO-61) — port em React do sketch original
- * do ICON (Francisco Barretto; port p5 de Eduardo Monteiro; versão canvas
- * vanilla do protótipo do Claude Design): nós derivam suavemente, caem,
- * conectam-se quando próximos e são repelidos pelo cursor, com rastro.
+ * Port em React do sketch original do ICON — autoria de Francisco Barretto,
+ * port p5 de Eduardo Monteiro, versão canvas vanilla do protótipo do design.
  *
  * Com `prefers-reduced-motion`, desenha um único frame estático.
  */

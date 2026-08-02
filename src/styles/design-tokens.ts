@@ -15,7 +15,7 @@
  * backlog para depois do M1. Ver docs/design-tokens.md para a documentação
  * completa e a tabela de papéis semânticos.
  *
- * Uso (após ICO-50 adicionar o Tailwind):
+ * Uso:
  *   // tailwind.config.ts
  *   import { tailwindTheme } from './src/styles/design-tokens'
  *   export default { theme: tailwindTheme }

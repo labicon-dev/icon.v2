@@ -47,11 +47,6 @@ const FIELDS: Field[] = [
   },
 ];
 
-/**
- * Seção "Áreas de Interesse" (ICO-15) — cards A_01–A_06 na escala do
- * protótipo do design, com hover (borda/código accent, seta ↗ deslizando,
- * fundo levemente elevado e translateY).
- */
 function InteresseSection() {
   return (
     <section

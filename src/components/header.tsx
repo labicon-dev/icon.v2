@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { HEADER_NAV, LIVE_HREF, MOBILE_NAV } from '../config/sections';
 import Logo from './logo';
 
-/** Item destacado do nav que aponta para a transmissão (seção `live`). */
 function LiveNavLink() {
   return (
     <a
@@ -19,10 +18,8 @@ function LiveNavLink() {
 }
 
 /**
- * Header global (ICO-11) — barra sticky de 64px com logo e navegação por
- * âncoras, conforme o protótipo do design: itens numerados (Contato é 06,
- * como a seção) + "● AO VIVO" em destaque. No mobile vira um menu
- * fullscreen que desliza da direita, com links grandes e CTA de e-mail.
+ * A numeração dos itens acompanha a das seções, por isso Contato é 06 e não
+ * 05: "Ao Vivo" (05) fica de fora da lista e ganha link próprio em destaque.
  */
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,7 +73,11 @@ function Header() {
         className={`fixed inset-0 z-[60] flex flex-col bg-background p-6 transition-transform duration-300 ease-out md:hidden ${
           menuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-        aria-hidden={!menuOpen}
+        // Fechado, o menu continua no DOM (só deslocado para fora da tela).
+        // `inert` tira os links da ordem de tabulação e da árvore de
+        // acessibilidade; com `aria-hidden` sozinho, o Tab levava o usuário
+        // para dentro de conteúdo anunciado como oculto.
+        inert={!menuOpen}
       >
         <div className="flex items-center justify-between">
           <Logo idPrefix="menu-logo" />
