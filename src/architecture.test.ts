@@ -74,13 +74,13 @@ const edges = files.flatMap((file) => {
     .map((to) => ({ from, to }));
 });
 
-describe('camadas de src/', () => {
-  it('encontra os arquivos e imports do projeto (sanidade do próprio teste)', () => {
+describe('src/ layers', () => {
+  it('finds the project files and imports (sanity check for the test itself)', () => {
     expect(files.length).toBeGreaterThan(10);
     expect(edges.length).toBeGreaterThan(10);
   });
 
-  it.each(SHARED_LAYERS)('%s/ não importa de features/ nem de pages/', (layer) => {
+  it.each(SHARED_LAYERS)('%s/ does not import from features/ or pages/', (layer) => {
     const violations = edges
       .filter(({ from }) => layerOf(from) === layer)
       .filter(({ to }) => layerOf(to) === 'features' || layerOf(to) === 'pages')
@@ -89,7 +89,7 @@ describe('camadas de src/', () => {
     expect(violations).toEqual([]);
   });
 
-  it('nenhuma feature importa de outra feature', () => {
+  it('no feature imports from another feature', () => {
     const violations = edges
       .filter(({ from, to }) => layerOf(from) === 'features' && layerOf(to) === 'features')
       .filter(({ from, to }) => from.split('/')[1] !== to.split('/')[1])
@@ -98,7 +98,7 @@ describe('camadas de src/', () => {
     expect(violations).toEqual([]);
   });
 
-  it('features/ não importa de pages/', () => {
+  it('features/ does not import from pages/', () => {
     const violations = edges
       .filter(({ from, to }) => layerOf(from) === 'features' && layerOf(to) === 'pages')
       .map(({ from, to }) => `${from} → ${to}`);

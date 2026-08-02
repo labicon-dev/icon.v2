@@ -8,17 +8,17 @@ function completeEnv(): Record<string, unknown> {
 }
 
 describe('findMissingEnvKeys', () => {
-  it('não acusa nada quando todas as obrigatórias estão preenchidas', () => {
+  it('returns nothing when every required key is filled', () => {
     expect(findMissingEnvKeys(completeEnv())).toEqual([]);
   });
 
-  it('acusa chave ausente', () => {
+  it('flags a missing key', () => {
     const env = completeEnv();
     delete env[REQUIRED_ENV_KEYS[0]];
     expect(findMissingEnvKeys(env)).toEqual([REQUIRED_ENV_KEYS[0]]);
   });
 
-  it('trata string vazia e só-espaços como ausente', () => {
+  it('treats empty and whitespace-only strings as missing', () => {
     expect(findMissingEnvKeys({ ...completeEnv(), [REQUIRED_ENV_KEYS[0]]: '' })).toEqual([
       REQUIRED_ENV_KEYS[0],
     ]);
@@ -27,23 +27,23 @@ describe('findMissingEnvKeys', () => {
     ]);
   });
 
-  it('trata valor não-string como ausente', () => {
+  it('treats a non-string value as missing', () => {
     expect(findMissingEnvKeys({ ...completeEnv(), [REQUIRED_ENV_KEYS[0]]: 123 })).toEqual([
       REQUIRED_ENV_KEYS[0],
     ]);
   });
 
-  it('acusa todas as obrigatórias quando a fonte está vazia', () => {
+  it('flags every required key when the source is empty', () => {
     expect(findMissingEnvKeys({})).toEqual([...REQUIRED_ENV_KEYS]);
   });
 
-  it('ignora chaves extras não obrigatórias', () => {
+  it('ignores extra non-required keys', () => {
     expect(findMissingEnvKeys({ ...completeEnv(), VITE_QUALQUER_OUTRA: '' })).toEqual([]);
   });
 });
 
 describe('formatMissingEnvError', () => {
-  it('lista cada chave faltando na mensagem', () => {
+  it('lists every missing key in the message', () => {
     const message = formatMissingEnvError(['VITE_A', 'VITE_B']);
     expect(message).toContain('VITE_A');
     expect(message).toContain('VITE_B');
@@ -53,11 +53,11 @@ describe('formatMissingEnvError', () => {
 });
 
 describe('validateEnv', () => {
-  it('passa quando a fonte está completa', () => {
+  it('passes when the source is complete', () => {
     expect(() => validateEnv(completeEnv())).not.toThrow();
   });
 
-  it('lança listando a chave faltando', () => {
+  it('throws listing the missing key', () => {
     const env = completeEnv();
     delete env[REQUIRED_ENV_KEYS[0]];
     expect(() => validateEnv(env)).toThrowError(new RegExp(REQUIRED_ENV_KEYS[0], 'u'));
