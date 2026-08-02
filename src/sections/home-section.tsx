@@ -24,9 +24,9 @@ const TYPED_PHRASES = [
   'arte ∩ ciência',
 ];
 
-function HeroStat({ label, first = false, children }: Readonly<HeroStatProps>) {
+function HeroStat({ label, className = '', children }: Readonly<HeroStatProps>) {
   return (
-    <div className={`border-r border-border py-4 ${first ? 'pr-4' : 'px-5'}`}>
+    <div className={`border-border py-3.5 sm:py-4 ${className}`}>
       <p className="font-mono text-caption text-neutral-700 uppercase">{label}</p>
       <p className="mt-1 font-mono text-body-sm text-neutral-50">{children}</p>
     </div>
@@ -40,7 +40,7 @@ function HomeSection() {
     <div id="inicio" className="flex flex-col bg-background text-neutral-50">
       <section
         aria-label="Apresentação"
-        className="relative flex min-h-[calc(100vh-64px)] flex-col justify-center overflow-hidden pt-10 pb-57.5 sm:pb-32.5"
+        className="relative flex min-h-[calc(100vh-64px)] flex-col justify-center overflow-hidden pt-10 pb-47.5 sm:pb-32.5"
       >
         <div className="absolute inset-0 z-0">
           <NetworkField />
@@ -91,15 +91,19 @@ function HomeSection() {
         </div>
 
         <div className="absolute right-0 bottom-0 left-0 z-2 border-t border-border bg-background/55 backdrop-blur-sm">
-          <div className="mx-auto grid w-full max-w-330 grid-cols-2 items-center px-7.5 sm:grid-cols-[repeat(4,1fr)_auto]">
-            <HeroStat label="Lat / Long" first>
+          <div className="mx-auto grid w-full max-w-330 grid-cols-2 px-7.5 sm:grid-cols-[repeat(4,1fr)_auto]">
+            <HeroStat label="Lat / Long" className="border-r border-b pr-4 sm:border-b-0 sm:pr-5">
               {LAT_LONG}
             </HeroStat>
-            <HeroStat label="Tempo">
+            <HeroStat label="Tempo" className="border-b pl-4 sm:border-r sm:border-b-0 sm:px-5">
               <LiveClock />
             </HeroStat>
-            <HeroStat label="Est.">2019 · UFBA</HeroStat>
-            <HeroStat label="Versão">SITE_v2.0</HeroStat>
+            <HeroStat label="Est." className="border-r pr-4 sm:px-5">
+              2019 · UFBA
+            </HeroStat>
+            <HeroStat label="Versão" className="pl-4 sm:border-r sm:px-5">
+              SITE_v2.0
+            </HeroStat>
             <div className="hidden items-center gap-2 py-4 pl-5 font-mono text-label-sm text-neutral-700 uppercase sm:flex">
               <span aria-hidden="true" className="text-accent">
                 {' '}

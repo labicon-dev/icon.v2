@@ -1,5 +1,5 @@
 export type HeroStatProps = {
   label: string;
-  first?: boolean;
+  className?: string;
   children: React.ReactNode;
 };
