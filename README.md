@@ -4,6 +4,17 @@ Front-end do novo site do Laboratório ICON — single-page, tema escuro, estét
 técnica/wireframe. Construído com **React 19 + TypeScript + Vite**, estilizado
 com **Tailwind CSS v4** sobre os tokens de design extraídos do Figma.
 
+| Documento                              | Responde                                       |
+| -------------------------------------- | ---------------------------------------------- |
+| **README.md** (este)                   | Como rodar, ferramentas, fluxo de contribuição |
+| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Como o código é organizado, e por quê          |
+| [`PRD.md`](./PRD.md)                   | O que o produto é, e **o que é stub**          |
+| [`AGENTS.md`](./AGENTS.md)             | Regras para quem (ou o que) implementa tarefas |
+
+> Partes do site parecem prontas e não estão — o formulário de contato exibe
+> "mensagem enviada" sem enviar nada. Antes de mexer em qualquer seção, leia
+> [`PRD.md`](./PRD.md#o-que-é-stub).
+
 ## Como rodar
 
 Pré-requisitos: **Node 22** e **pnpm** (ou apenas Docker — ver a seção
@@ -20,39 +31,44 @@ pnpm install      # instala as dependências (e configura os hooks do Husky)
 pnpm run dev      # sobe o dev server do Vite em http://localhost:5173
 ```
 
-| Script                  | O que faz                                                |
-| ----------------------- | -------------------------------------------------------- |
-| `pnpm run dev`          | Dev server do Vite com hot-reload                        |
-| `pnpm run build`        | Type-check (`tsc -b`) + build de produção (`vite build`) |
-| `pnpm run preview`      | Serve localmente o build de produção                     |
-| `pnpm run lint`         | Analisa o código com oxlint                              |
-| `pnpm run format`       | Formata todos os arquivos com Prettier (in-place)        |
-| `pnpm run format:check` | Verifica a formatação sem alterar (útil para CI)         |
+| Script                  | O que faz                                                         |
+| ----------------------- | ----------------------------------------------------------------- |
+| `pnpm run dev`          | Dev server do Vite com hot-reload                                 |
+| `pnpm run build`        | Type-check `strict` (`tsc -b`) + build de produção (`vite build`) |
+| `pnpm run preview`      | Serve localmente o build de produção                              |
+| `pnpm run lint`         | Analisa o código com oxlint (sai != 0 em qualquer violação)       |
+| `pnpm run test`         | Roda os testes com Vitest                                         |
+| `pnpm run test:watch`   | Vitest em modo watch                                              |
+| `pnpm run format`       | Formata todos os arquivos com Prettier (in-place)                 |
+| `pnpm run format:check` | Verifica a formatação sem alterar (útil para CI)                  |
+
+> A versão do pnpm é fixada no campo `packageManager` do
+> [`package.json`](./package.json); o CI deriva dela, sem número duplicado no
+> workflow.
 
 ## Estrutura de pastas
 
 O `src/` é organizado **por feature/domínio**, substituindo a estrutura genérica
-do template padrão do Vite. A ideia é manter cada domínio coeso e isolado, com os
-blocos reutilizáveis num nível compartilhado.
+do template padrão do Vite.
 
 ```
 src/
-├── main.tsx          # ponto de entrada — monta o React no #root
-├── App.tsx           # composição raiz da aplicação
-├── index.css         # estilos globais (importa o Tailwind e o @config dos tokens)
-├── components/       # componentes de UI reutilizáveis e agnósticos de domínio
-├── features/         # módulos por feature (membros, publicações, projetos…)
-├── pages/            # componentes de página/rota (M2)
-├── lib/              # utilitários e clients compartilhados (ex.: api.ts)
-└── styles/           # design tokens e estilos base (design-tokens.ts)
+├── main.tsx              # ponto de entrada — valida envs e monta o React no #root
+├── App.tsx               # composição raiz da aplicação
+├── index.css             # estilos globais (Tailwind + @config dos tokens)
+├── architecture.test.ts  # impõe a direção de dependência entre as camadas
+├── components/           # UI reutilizável, agnóstica de domínio
+├── features/             # módulos por domínio (hoje: members)
+├── pages/                # seções da página única
+├── lib/                  # client HTTP genérico
+├── config/               # validação de env
+└── styles/               # design tokens
 ```
 
-Cada pasta nova tem um `README.md` com sua finalidade e convenções:
-[`components/`](./src/components/README.md), [`features/`](./src/features/README.md)
-e [`pages/`](./src/pages/README.md). Regra geral: uma feature **não** importa de
-outra — o que for compartilhado sobe para `components/` ou `lib/`. As pastas de
-`features/` e `pages/` começam como placeholders e recebem o conteúdo real a
-partir do M2.
+A direção de dependência é `pages → features → components/lib/config/styles`, e
+não é convenção de confiança: `src/architecture.test.ts` falha o build se ela for
+violada. **Detalhes, o porquê de cada camada e as divergências conhecidas estão
+em [`ARCHITECTURE.md`](./ARCHITECTURE.md).**
 
 ## Ambiente de desenvolvimento com Docker
 
@@ -104,14 +120,23 @@ O `.env.local` é ignorado pelo git (ver [`.gitignore`](./.gitignore)) — **nun
 commite valores reais**. Em CI/deploy, defina as mesmas variáveis como secrets
 do ambiente (GitHub Actions Secrets, env vars do Vercel/servidor do lab).
 
-| Variável            | Descrição                                                   |
-| ------------------- | ----------------------------------------------------------- |
-| `VITE_API_BASE_URL` | URL base da API do laboratório (secreta; obtida com o time) |
+| Variável                  | Descrição                                                |
+| ------------------------- | -------------------------------------------------------- |
+| `VITE_API_BASE_URL`       | URL base da API do laboratório (obtida com o time)       |
+| `VITE_MEMBER_FETCH_TOKEN` | Chave enviada como header `X-API-KEY` nas chamadas à API |
 
-O client HTTP fica em [`src/lib/api.ts`](./src/lib/api.ts) e lê a URL base
-**sempre** de `VITE_API_BASE_URL` — nada de endpoint hardcoded. Hoje ele cobre
-`GET /member/all`. Publicações e projetos ainda não têm endpoint confirmado e
-serão adicionados quando forem definidos (M3).
+> ⚠️ **Nenhuma dessas variáveis é secreta na prática.** Toda env `VITE_*` é
+> embutida no bundle servido ao browser e é legível por qualquer visitante.
+> Elas ficam fora do git para não vazarem em histórico e busca de código, não
+> porque o valor esteja protegido em produção. Ver
+> [`ARCHITECTURE.md`](./ARCHITECTURE.md#segredos).
+
+O client HTTP genérico fica em [`src/lib/api.ts`](./src/lib/api.ts) (`apiFetch` +
+`ApiError`) e lê a URL base **sempre** de `VITE_API_BASE_URL` — nada de endpoint
+hardcoded. Cada domínio monta seus endpoints em cima dele: hoje só
+[`src/features/members/api.ts`](./src/features/members/api.ts), com
+`GET /member/all`. Publicações e projetos não têm endpoint definido (ver
+[`PRD.md`](./PRD.md#dados)).
 
 ### Validação no boot
 
@@ -165,7 +190,7 @@ Passos manuais feitos no dashboard da Vercel (não versionáveis):
 
 ## Lint e formatação
 
-> **Decisão (ICO-49):** manter o **oxlint** (já presente no scaffold do Vite) em
+> **Decisão:** manter o **oxlint** (já presente no scaffold do Vite) em
 > vez de migrar para o ESLint. O oxlint é escrito em Rust, roda ordens de
 > grandeza mais rápido e já cobre as regras que precisamos para o projeto —
 > migrar para ESLint traria complexidade de configuração sem ganho prático aqui.
@@ -215,7 +240,8 @@ agentes ficam em [`AGENTS.md`](./AGENTS.md).
    ```bash
    pnpm run lint          # oxlint
    pnpm run format:check  # Prettier (use `format` para corrigir)
-   pnpm run build         # type-check + build
+   pnpm run test          # Vitest (inclui o teste de arquitetura)
+   pnpm run build         # type-check strict + build
    ```
 
 5. **Commits** no padrão [Conventional Commits](https://www.conventionalcommits.org/)
@@ -228,14 +254,14 @@ agentes ficam em [`AGENTS.md`](./AGENTS.md).
 
 ### Automação de repositório
 
-| Arquivo                                                                    | O que faz                                                            |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [`.github/workflows/ci.yml`](./.github/workflows/ci.yml)                   | Lint + `format:check` + build a cada push/PR (Node lido de `.nvmrc`) |
-| [`.github/workflows/pr-title.yml`](./.github/workflows/pr-title.yml)       | Valida o título do PR contra Conventional Commits                    |
-| [`.github/workflows/merge-check.yml`](./.github/workflows/merge-check.yml) | Gate `human-approval`: exige review aprovada por um humano (ICO-21)  |
-| [`.github/workflows/labeler.yml`](./.github/workflows/labeler.yml)         | Aplica labels de área (`area:frontend`, `area:infra`, `area:docs`)   |
-| [`.github/dependabot.yml`](./.github/dependabot.yml)                       | Atualizações semanais de dependências (pnpm/npm + github-actions)    |
-| [`.github/CODEOWNERS`](./.github/CODEOWNERS)                               | Revisores exigidos por área                                          |
+| Arquivo                                                                    | O que faz                                                                |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [`.github/workflows/ci.yml`](./.github/workflows/ci.yml)                   | Lint + `format:check` + testes + build a cada push/PR (Node de `.nvmrc`) |
+| [`.github/workflows/pr-title.yml`](./.github/workflows/pr-title.yml)       | Valida o título do PR contra Conventional Commits                        |
+| [`.github/workflows/merge-check.yml`](./.github/workflows/merge-check.yml) | Gate `human-approval`: exige review aprovada por um humano (ICO-21)      |
+| [`.github/workflows/labeler.yml`](./.github/workflows/labeler.yml)         | Aplica labels de área (`area:frontend`, `area:infra`, `area:docs`)       |
+| [`.github/dependabot.yml`](./.github/dependabot.yml)                       | Atualizações semanais de dependências (pnpm/npm + github-actions)        |
+| [`.github/CODEOWNERS`](./.github/CODEOWNERS)                               | Revisores exigidos por área                                              |
 
 ### ICON DevKit
 
