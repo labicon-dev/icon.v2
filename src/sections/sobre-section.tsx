@@ -21,7 +21,7 @@ function SobreSection() {
       aria-labelledby="sobre-titulo"
       className="border-b border-border px-5 py-20 md:px-7.5 md:py-30"
     >
-      <div className="mx-auto max-w-[1320px]">
+      <div className="mx-auto max-w-330">
         <Reveal className="mb-14">
           <SectionHeader index="02" title="SOBRE O ICON" label="/ About" headingId="sobre-titulo" />
         </Reveal>
@@ -56,7 +56,7 @@ function SobreSection() {
 
             <ul className="mt-3.5 grid grid-cols-3 gap-3">
               {TRIAD.map(({ letter, label, translation }) => (
-                <li key={letter} className="rounded border border-border bg-surface px-4 py-[22px]">
+                <li key={letter} className="rounded border border-border bg-surface px-4 py-5.5">
                   <span
                     aria-hidden="true"
                     className="font-sans text-[30px] leading-none font-bold text-accent"
@@ -71,7 +71,7 @@ function SobreSection() {
               ))}
             </ul>
 
-            <div className="mt-3.5 rounded border border-border bg-surface p-[22px]">
+            <div className="mt-3.5 rounded border border-border bg-surface p-5.5">
               <p className="font-mono text-label-sm tracking-wider text-neutral-700 uppercase">
                 {'//'} O que fazemos
               </p>

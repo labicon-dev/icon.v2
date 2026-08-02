@@ -8,7 +8,7 @@ function Footer() {
 
   return (
     <footer className="bg-background px-5 pt-16 pb-10 md:px-7.5">
-      <div className="mx-auto max-w-[1320px]">
+      <div className="mx-auto max-w-330">
         <div className="grid gap-10 border-b border-border pb-12 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <Logo idPrefix="footer-logo" />

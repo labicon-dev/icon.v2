@@ -1,17 +1,7 @@
-/**
- * Seções do site, na ordem em que aparecem. Fonte única da navegação.
- *
- * Existiam três listas divergentes: `NAV_ITEMS` e `MOBILE_ITEMS` no header e
- * `NAV_LINKS` no footer. Elas discordavam tanto em quais seções incluir quanto
- * nos rótulos — daí os dois campos abaixo.
- */
 export interface SiteSection {
-  /** Numeração exibida na interface ("01"…"06"). */
   number: string;
   href: string;
-  /** Rótulo curto do header ("Áreas", "Equipe"). */
   short: string;
-  /** Rótulo por extenso do footer ("Áreas de Interesse", "Quem Somos"). */
   long: string;
 }
 

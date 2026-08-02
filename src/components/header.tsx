@@ -10,9 +10,9 @@ function LiveNavLink() {
     >
       <span
         aria-hidden="true"
-        className="inline-block size-[7px] animate-pulse rounded-full bg-accent motion-reduce:animate-none"
+        className="inline-block size-1.75 animate-pulse rounded-full bg-accent motion-reduce:animate-none"
       />
-      Ao vivo
+      <span>Ao vivo</span>
     </a>
   );
 }
@@ -34,7 +34,7 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-5 md:px-7.5">
+      <div className="mx-auto flex h-16 max-w-330 items-center justify-between px-5 md:px-7.5">
         <a href="#inicio" aria-label="ICON — voltar ao início" onClick={closeMenu}>
           <Logo idPrefix="header-logo" />
         </a>
@@ -61,7 +61,7 @@ function Header() {
           aria-expanded={menuOpen}
           aria-controls="menu-mobile"
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-          className="flex size-[42px] items-center justify-center rounded border border-border-muted text-lead text-neutral-50 transition-colors hover:border-border-accent md:hidden"
+          className="flex size-10.5 items-center justify-center rounded border border-border-muted text-lead text-neutral-50 transition-colors hover:border-border-accent md:hidden"
         >
           {menuOpen ? '✕' : '≡'}
         </button>
@@ -70,7 +70,7 @@ function Header() {
       {/* Menu mobile fullscreen (desliza da direita) */}
       <div
         id="menu-mobile"
-        className={`fixed inset-0 z-[60] flex flex-col bg-background p-6 transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed inset-0 z-60 flex flex-col bg-background p-6 transition-transform duration-300 ease-out md:hidden ${
           menuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         // Fechado, o menu continua no DOM (só deslocado para fora da tela).
@@ -85,7 +85,7 @@ function Header() {
             type="button"
             onClick={closeMenu}
             aria-label="Fechar menu"
-            className="flex size-[42px] items-center justify-center rounded border border-border-muted text-lead text-neutral-50"
+            className="flex size-10.5 items-center justify-center rounded border border-border-muted text-lead text-neutral-50"
           >
             ✕
           </button>

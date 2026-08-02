@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 
-/* Carrega os tokens do ICON (src/styles/design-tokens.ts) via tailwind.config.ts */
 @config '../tailwind.config.ts';
 
 @layer base {
@@ -17,15 +16,12 @@
     @apply bg-accent text-background;
   }
 
-  /* Compensa o header sticky na navegação por âncora. */
   section[id],
   div[id='inicio'] {
     scroll-margin-top: 74px;
   }
 }
 
-/* Desloca o trilho em -50% para um loop contínuo, já que a sequência de
-   itens é duplicada lado a lado (ver o componente Marquee). */
 @keyframes marquee {
   to {
     transform: translateX(-50%);
@@ -36,7 +32,6 @@
   animation: marquee var(--marquee-duration, 30s) linear infinite;
 }
 
-/* Cursor do typewriter do hero (bloco amarelo piscando em passos). */
 @keyframes blink {
   0%,
   49% {
@@ -52,7 +47,6 @@
   animation: blink 1.05s steps(1) infinite;
 }
 
-/* Scanlines da moldura AO VIVO (textura de sinal analógico). */
 @keyframes scan {
   to {
     background-position: 0 8px;
@@ -68,7 +62,6 @@
   animation: scan 1s linear infinite;
 }
 
-/* Scroll-reveal (componente Reveal): entra suave quando a seção fica visível. */
 .reveal {
   opacity: 0;
   transform: translateY(20px);

@@ -4,7 +4,6 @@ import './index.css';
 import App from './app.tsx';
 import { validateEnv } from './config/env.ts';
 
-// Falha rápido no boot: se faltar env obrigatória, o app não renderiza.
 validateEnv(import.meta.env);
 
 createRoot(document.getElementById('root')!).render(

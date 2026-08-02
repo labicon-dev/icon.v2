@@ -1,8 +1,5 @@
 /**
  * Cliente HTTP genérico para a API do laboratório.
- *
- * Não conhece domínio: cada feature monta seus endpoints em cima de `apiFetch`
- * (ver o `api.ts` de cada feature). A URL base vem de `VITE_API_BASE_URL`.
  */
 
 /** Erro lançado quando a API responde com status fora da faixa 2xx. */
