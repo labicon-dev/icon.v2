@@ -41,7 +41,7 @@ Ordem fixa, navegação por âncora. A numeração aparece na interface.
 | 02  | Sobre o ICON       | `#sobre`     | Apresentação, tripé Arte/Ciência/Educação, "o que fazemos"    | Hardcoded        |
 | 03  | Áreas de Interesse | `#interesse` | 6 cards (`A_01`–`A_06`) com área, tradução e descrição        | Hardcoded        |
 | 04  | Quem Somos         | `#quem`      | Grid de cards da equipe                                       | **API**          |
-| 05  | Ao Vivo            | `#live`      | Janela de vídeo do laboratório                                | **Stub**         |
+| 05  | Ao Vivo            | `#live`      | Câmera do laboratório ao vivo (HLS)                           | **CDN**          |
 | 06  | Entre em Contato   | `#contato`   | E-mail, endereço, redes, formulário                           | **Stub parcial** |
 
 ## Dados
@@ -59,6 +59,24 @@ Ordem fixa, navegação por âncora. A numeração aparece na interface.
 O contrato ainda **não foi formalizado** pelo time. Os campos consumidos hoje
 são `id`, `name`, `activity`, `avatarUrl` e `activeOnWebsite`.
 
+### Ao Vivo — real
+
+Stream HLS da câmera em `<VITE_CDN_BASE_URL>/stream/live/stream/index.m3u8`
+(640×480, com áudio, CORS liberado), tocado sem som.
+
+- O player só conecta quando a seção chega perto da tela: o stream consome
+  ~630 kbps contínuos.
+- Se o stream cair, a moldura mostra "Câmera fora do ar" e tenta reconectar a
+  cada 20 s. A marca "● REC" só aparece com o vídeo tocando.
+- Depois de conectado, o vídeo continua baixando mesmo fora da tela.
+
+### Logo — real
+
+A marca oficial vem da CDN (`<VITE_CDN_BASE_URL>/logo/`), só em PNG. Todas as
+versões publicadas estão listadas em `src/lib/cdn.ts`. O símbolo pequeno
+(516 px) aparece no header, no menu e na moldura do "Ao Vivo"; a logo completa
+(6920 px, ~850 KB) aparece no rodapé, com carregamento preguiçoso.
+
 ## O que é stub
 
 Esta seção existe para que ninguém — humano ou agente — assuma que estas partes
@@ -73,12 +91,6 @@ nenhum armazenamento. A mensagem é descartada.
 Do ponto de vista de quem visita o site, isso é pior que não ter formulário:
 a pessoa acredita que fez contato. **Precisa de decisão de produto** — ligar a
 um serviço de formulário, trocar por um `mailto:`, ou remover.
-
-### Feed ao vivo (a ser implementado)
-
-A seção "Ao Vivo" tem barra de status, relógio real, marca "● REC", scanlines e
-cantoneiras, mas o centro diz _"[ Sinal da câmera do laboratório ]"_. Não há
-stream. O relógio funcionando reforça a impressão de que o feed está no ar.
 
 ### Links de redes sociais — não confirmados
 

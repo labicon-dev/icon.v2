@@ -36,7 +36,7 @@ function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-330 items-center justify-between px-5 md:px-7.5">
         <a href="#inicio" aria-label="ICON — voltar ao início" onClick={closeMenu}>
-          <Logo idPrefix="header-logo" />
+          <Logo />
         </a>
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-6 md:flex">
@@ -80,7 +80,7 @@ function Header() {
         inert={!menuOpen}
       >
         <div className="flex items-center justify-between">
-          <Logo idPrefix="menu-logo" />
+          <Logo />
           <button
             type="button"
             onClick={closeMenu}

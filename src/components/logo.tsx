@@ -1,26 +1,42 @@
-/**
- * Logo do ICON (marca hachurada + wordmark), desenhada inline conforme o
- * design — os SVGs em `public/` são sobras de template e não representam a
- * marca do laboratório.
- */
+import { logoUrl } from '../lib/cdn';
+
 interface LogoProps {
+  /**
+   * `compact`: símbolo oficial + "ICON" em texto, para espaços pequenos
+   * (header, menu, moldura do "Ao Vivo"). Na logo completa a descrição do
+   * laboratório fica ilegível abaixo de ~200px de largura.
+   *
+   * `full`: a logo completa da CDN (símbolo + ICON + descrição).
+   */
+  variant?: 'compact' | 'full';
   className?: string;
-  idPrefix?: string;
 }
 
-function Logo({ className = '', idPrefix = 'logo' }: Readonly<LogoProps>) {
-  const patternId = `${idPrefix}-hatch`;
+function Logo({ variant = 'compact', className = '' }: Readonly<LogoProps>) {
+  if (variant === 'full') {
+    return (
+      <img
+        src={logoUrl('fullWhiteOnTransparent')}
+        alt="ICON — Laboratório de Pesquisa, Desenvolvimento e Inovação em Interatividade, Computação e Novas Interfaces"
+        width={6920}
+        height={2900}
+        loading="lazy"
+        decoding="async"
+        className={`h-auto ${className}`.trim()}
+      />
+    );
+  }
+
   return (
     <span className={`inline-flex items-center gap-2 ${className}`.trim()}>
-      <svg aria-hidden="true" viewBox="0 0 20 20" className="size-5 text-neutral-50" fill="none">
-        <defs>
-          <pattern id={patternId} width="3" height="3" patternUnits="userSpaceOnUse">
-            <path d="M0 3L3 0" stroke="currentColor" strokeWidth="0.75" />
-          </pattern>
-        </defs>
-        <rect x="0.5" y="0.5" width="19" height="19" stroke="currentColor" />
-        <rect x="2.5" y="2.5" width="15" height="15" fill={`url(#${patternId})`} />
-      </svg>
+      <img
+        src={logoUrl('symbolSmallWhiteOnTransparent')}
+        alt=""
+        width={516}
+        height={516}
+        decoding="async"
+        className="size-6"
+      />
       <span className="font-sans text-h5 font-bold tracking-wide text-neutral-50">ICON</span>
     </span>
   );

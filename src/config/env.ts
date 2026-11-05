@@ -9,7 +9,11 @@
  */
 
 /** Lista canônica. Ao incluir uma chave aqui, registre-a também em `.env.template` e em `ImportMetaEnv`. */
-export const REQUIRED_ENV_KEYS = ['VITE_API_BASE_URL', 'VITE_MEMBER_FETCH_TOKEN'] as const;
+export const REQUIRED_ENV_KEYS = [
+  'VITE_API_BASE_URL',
+  'VITE_MEMBER_FETCH_TOKEN',
+  'VITE_CDN_BASE_URL',
+] as const;
 
 export type RequiredEnvKey = (typeof REQUIRED_ENV_KEYS)[number];
 
