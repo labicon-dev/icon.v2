@@ -6,6 +6,12 @@ interface SectionHeaderProps {
   onAccent?: boolean;
 }
 
+/**
+ * No mobile, título e rótulo não cabem lado a lado ("ÁREAS DE INTERESSE"
+ * sozinho ocupa quase a largura toda), então o rótulo sobe para a linha do
+ * índice e o título ganha a largura inteira, podendo quebrar. A partir de `sm`
+ * volta a ser uma linha só, como no Figma.
+ */
 function SectionHeader({
   index,
   title,
@@ -14,7 +20,7 @@ function SectionHeader({
   onAccent = false,
 }: Readonly<SectionHeaderProps>) {
   return (
-    <div className="flex items-baseline gap-4">
+    <div className="grid grid-cols-[1fr_auto] items-baseline gap-x-4 gap-y-2 sm:flex sm:gap-4">
       <span
         aria-hidden="true"
         className={`font-mono text-label ${onAccent ? 'text-onAccent-muted' : 'text-accent'}`}
@@ -23,7 +29,7 @@ function SectionHeader({
       </span>
       <h2
         id={headingId}
-        className={`font-sans text-h1 font-bold whitespace-nowrap ${
+        className={`col-span-2 row-start-2 font-sans text-h1 font-bold sm:whitespace-nowrap ${
           onAccent ? 'text-onAccent-strong' : 'text-neutral-50'
         }`}
       >
@@ -31,7 +37,7 @@ function SectionHeader({
       </h2>
       <span
         aria-hidden="true"
-        className={`ml-auto font-mono text-label uppercase ${
+        className={`col-start-2 row-start-1 ml-auto font-mono text-label uppercase ${
           onAccent ? 'text-onAccent-muted' : 'text-neutral-700'
         }`}
       >

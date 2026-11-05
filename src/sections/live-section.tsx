@@ -29,15 +29,17 @@ function LiveSection() {
 
         <Reveal>
           <figure className="overflow-hidden rounded border border-border bg-surface">
-            <figcaption className="flex items-center justify-between gap-4 border-b border-border px-5 py-3.5 font-mono text-label tracking-wide">
-              <span className="flex items-center gap-2.5 text-neutral-50 uppercase">
+            {/* No mobile os dois blocos não cabem na mesma linha e quebravam
+                no meio ("AO VIVO · / LIVE"); empilhados, cada um fica inteiro. */}
+            <figcaption className="flex flex-col items-start gap-1.5 border-b border-border px-5 py-3.5 font-mono text-label tracking-wide sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <span className="flex items-center gap-2.5 whitespace-nowrap text-neutral-50 uppercase">
                 <span
                   aria-hidden="true"
                   className="inline-block size-2 animate-pulse rounded-full bg-signal motion-reduce:animate-none"
                 />{' '}
                 Ao vivo · Live{' '}
               </span>
-              <span className="text-neutral-700 uppercase">
+              <span className="whitespace-nowrap text-neutral-700 uppercase">
                 ICON_LAB_CAM · UTC-3 · <time className="text-accent">{time}</time>
               </span>
             </figcaption>
