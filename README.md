@@ -124,6 +124,7 @@ do ambiente (GitHub Actions Secrets, env vars do Vercel/servidor do lab).
 | ------------------------- | -------------------------------------------------------- |
 | `VITE_API_BASE_URL`       | URL base da API do laboratório (obtida com o time)       |
 | `VITE_MEMBER_FETCH_TOKEN` | Chave enviada como header `X-API-KEY` nas chamadas à API |
+| `VITE_CDN_BASE_URL`       | URL base da CDN do laboratório (logos e câmera ao vivo)  |
 
 > ⚠️ **Nenhuma dessas variáveis é secreta na prática.** Toda env `VITE_*` é
 > embutida no bundle servido ao browser e é legível por qualquer visitante.

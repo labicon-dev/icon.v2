@@ -11,7 +11,7 @@ function Footer() {
       <div className="mx-auto max-w-330">
         <div className="grid gap-10 border-b border-border pb-12 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <Logo idPrefix="footer-logo" />
+            <Logo variant="full" className="w-52" />
             <p className="mt-5 max-w-[320px] font-sans text-body text-neutral-600">
               Laboratório de Pesquisa, Desenvolvimento e Inovação em Interatividade, Computação e
               Novas Interfaces.
